@@ -528,26 +528,6 @@
         </div>
 
         <!-- 3. MEMORANDUM SECTION -->
-        <!-- ======================================================== -->
-        <!-- FITUR BARU: PIXEL FORTUNE COOKIE (KOCAK & INTERAKTIF)    -->
-        <!-- ======================================================== -->
-        <div class="bg-gradient-to-r from-purple-900 to-indigo-900 border-4 border-yellow-400 p-6 rounded text-center mb-10 shadow-[6px_6px_0px_#000] relative overflow-hidden">
-            <h3 class="text-yellow-300 mb-2 font-['Press_Start_2P'] text-[13px]">🥠 PIXEL FORTUNE COOKIE</h3>
-            <p class="text-xs text-gray-300 mb-4 leading-tight">Klik biskuit mistis ini untuk melihat ramalan nasib pixelmu hari ini!</p>
-            
-            <!-- Area Biskuit Interaktif -->
-            <div id="cookieArea" class="cursor-pointer inline-block my-4 transition-transform active:scale-95" onclick="crackCookie()">
-                <div id="cookieGraphic" class="text-5xl filter drop-shadow-[3px_3px_0px_rgba(0,0,0,1)] animate-bounce">🥠</div>
-            </div>
-
-            <!-- Tempat Teks Ramalan Muncul -->
-            <div id="fortuneTextSlot" class="min-h-[40px] flex items-center justify-center px-4">
-                <p id="fortuneText" class="text-emerald-400 text-xl font-bold italic leading-tight tracking-wide animate-pulse">
-                    "Sentuh aku jika berani..."
-                </p>
-            </div>
-        </div>
-        <!-- ======================================================== -->
         <div class="memorandum-section p-6 border-double rounded mb-12">
             <h3 class="mb-2">📝 MEMORANDUM</h3>
             <p class="text-center text-sm md:text-base text-pink-400 mb-6 leading-tight">Siapa saja bisa melampirkan pesan atau foto kenangan di sini!</p>
@@ -839,418 +819,79 @@
                 img.src = e.target.result;
             };
             reader.readAsDataURL(file);
-        }
-        // ========================================================
-        // LOGIKA KOCAK PIXEL FORTUNE COOKIE
-        // ========================================================
-        const daftarRamalan = [
-            "Ramalan hari ini: Dompetmu seperti pixel transparan, gak kelihatan isinya.",
-            "Waduh! Masa depanmu secerah lampu RGB di casing PC berspesifikasi dewa.",
-            "Jangan menyerah, kodinganmu emang error, tapi pesonamu kan nggak. (Canda error).",
-            "Hari ini kamu akan mendapatkan rezeki nomplok berupa... notifikasi grup WA yang di-mute.",
-            "Kisah cintamu diprediksi mirip sinyal Edge di pelosok: Kadang ada, seringnya ilang.",
-            "Keberuntunganmu 99%, sisanya ketutup gara-gara belum mandi.",
-            "Hati-hati, hari ini ada seseorang yang kangen kamu tapi gengsinya sebesar ukuran file GTA V.",
-            "Saran hari ini: Kurangi mikirin masa lalu, banyakin mikirin kuota internet.",
-            "Kamu akan segera menemukan barang hilang yang dicari-cari... pas kamu udah beli yang baru.",
-            "Maju terus! Ingat, secapek-capeknya kamu, masih capek-an server Firebase nampung foto-fotomu."
-        ];
-
-        let sedangAnimasiCookie = false;
-
-        window.crackCookie = function() {
-            if (sedangAnimasiCookie) return;
-            sedangAnimasiCookie = true;
-
-            const cookieGraphic = document.getElementById('cookieGraphic');
-            const fortuneText = document.getElementById('fortuneText');
-
-            // Efek Suara/Visual Getar (Shake Effect via inline styles)
-            cookieGraphic.style.animation = 'none';
-            cookieGraphic.innerText = "💥"; 
-            fortuneText.innerText = "Sedang meramal...";
-            fortuneText.style.color = "#ffeb3b";
-
-            setTimeout(() => {
-                // Berubah jadi biskuit pecah
-                cookieGraphic.innerText = "🥠✨";
-                
-                // Ambil ramalan acak
-                const acak = Math.floor(Math.random() * daftarRamalan.length);
-                fortuneText.innerText = `"${daftarRamalan[acak]}"`;
-                
-                // Kembalikan warna text jadi hijau cerah
-                fortuneText.style.color = "#34d399";
-                
-                // Mainkan sound effect bawaan browser (Beep tipis retro)
-                if (window.AudioContext || window.webkitAudioContext) {
-                    let ctx = new (window.AudioContext || window.webkitAudioContext)();
-                    let osc = ctx.createOscillator();
-                    osc.type = 'square'; // Suara kotak khas game nintendo 8-bit
-                    osc.frequency.setValueAtTime(440, ctx.currentTime);
-                    osc.connect(ctx.destination);
-                    osc.start();
-                    osc.stop(ctx.currentTime + 0.1);
-                }
-
-                // Beri jeda agar user bisa klik lagi setelah 2 detik
-                setTimeout(() => {
-                    cookieGraphic.innerText = "🥠";
-                    cookieGraphic.className = "text-5xl filter drop-shadow-[3px_3px_0px_rgba(0,0,0,1)] animate-bounce";
-                    sedangAnimasiCookie = false;
-                }, 2000);
-
-            }, 600);
-        };
-        // ========================================================
+        } 
     </script>
     <!-- ======================================================== -->
-<!-- FITUR BARU: PIXEL BUTTON CLICKER SHOWDOWN (SERU & KOCAK) -->
+<!-- ZONE LANGIT & BALON UDARA (GABUNGAN HTML + JS)           -->
 <!-- ======================================================== -->
-    <!-- ======================================================== -->
-<!-- PENGISI AREA KOSONG: MINI GAME TANGKAP PIXEL & EFEK BINTANG -->
-<!-- ======================================================== -->
-<div class="relative max-w-[800px] mx-auto my-6 p-4 border-4 border-dashed border-purple-500 bg-black/40 rounded text-center text-white overflow-hidden">
+<div class="w-full bg-gradient-to-b from-[#090514] via-[#1e1b4b] to-[#0c4a6e] pt-12 pb-20 relative overflow-hidden text-white clear-both">
     
-    <!-- Efek Latar Belakang Kelap Kelip -->
-    <div id="starBgArea" class="absolute inset-0 pointer-events-none opacity-40"></div>
+    <!-- Efek Awan-Awan Pixel -->
+    <div class="absolute top-10 left-4 opacity-20 text-4xl select-none animate-pulse">☁️</div>
+    <div class="absolute top-32 right-10 opacity-30 text-5xl select-none animate-bounce">☁️</div>
 
-    <div class="relative z-10">
-        <h3 style="font-family: 'Press Start 2P', cursive; font-size: 11px;" class="text-purple-400 mb-1">🎮 PIXEL FALLING CATCHER</h3>
-        <p style="font-family: 'VT323', monospace; font-size: 18px;" class="text-gray-400 mb-3">Geser keranjang dengan tombol di bawah untuk menangkap kenangan yang jatuh!</p>
-        
-        <!-- Score Board Mini -->
-        <div style="font-family: 'VT323', monospace; font-size: 20px;" class="text-yellow-400 mb-2">
-            ✨ Kenangan Tertangkap: <span id="catchScore" class="font-bold">0</span>
-        </div>
-
-        <!-- Layar Game Kecil -->
-        <div id="gameCanvas" class="relative w-full h-48 bg-slate-950 border-2 border-purple-700 mx-auto overflow-hidden max-w-sm rounded">
-            <!-- Objek Jatuh -->
-            <div id="fallingObj" class="absolute text-2xl select-none" style="top: -30px; left: 50%;">⭐</div>
-            <!-- Keranjang Pemain -->
-            <div id="basketObj" class="absolute bottom-2 bg-purple-600 border border-white text-xs px-2 py-0.5 rounded text-white font-sans font-bold" style="left: 40%; width: 70px;">🛒 GENG</div>
-        </div>
-
-        <!-- Tombol Kontrol Kiri Kanan -->
-        <div class="flex justify-center gap-4 mt-3">
-            <button onclick="geserBasket(-25)" style="font-family: 'Press Start 2P', cursive; font-size: 12px;" class="bg-purple-800 hover:bg-purple-700 text-white px-4 py-2 border-2 border-black active:translate-y-0.5 shadow-[2px_2px_0px_#000]">◀</button>
-            <button onclick="geserBasket(25)" style="font-family: 'Press Start 2P', cursive; font-size: 12px;" class="bg-purple-800 hover:bg-purple-700 text-white px-4 py-2 border-2 border-black active:translate-y-0.5 shadow-[2px_2px_0px_#000]">▶</button>
-        </div>
-    </div>
-</div>
-<!-- ======================================================== -->
-<div class="bg-[#0f172a] border-4 border-emerald-400 p-5 rounded text-center my-10 max-w-[800px] mx-auto shadow-[6px_6px_0px_#000] text-white">
-    <h3 style="font-family: 'Press Start 2P', cursive; font-size: 11px;" class="text-emerald-400 mb-2">🕹️ PIXEL CLICKER SHOWDOWN</h3>
-    <p style="font-family: 'VT323', monospace; font-size: 20px;" class="text-gray-400 mb-4">Uji kecepatan jarimu! Klik sebanyak mungkin dalam 5 detik untuk mendapat Gelar Kasta Tertinggi.</p>
-    
-    <!-- Area Skor dan Waktu -->
-    <div class="flex justify-center gap-8 mb-4 font-mono text-xl">
-        <div>⏱️ Waktu: <span id="clickTimer" class="text-yellow-400 font-bold">5</span>s</div>
-        <div>🎯 Total Klik: <span id="clickScore" class="text-cyan-400 font-bold">0</span></div>
+    <div class="text-center mb-16 relative z-10 px-4">
+        <span class="text-xs bg-sky-500/30 text-sky-300 border border-sky-400 px-3 py-1 rounded-full font-mono uppercase tracking-widest">Level 2: The Sky Archive</span>
+        <h2 style="font-family: 'Press Start 2P', cursive; font-size: 14px;" class="text-cyan-300 mt-3">🎈 TERBANG BERSAMA BALON UDARA</h2>
+        <p style="font-family: 'VT323', monospace; font-size: 20px;" class="text-gray-300 mt-1">Klik balonnya buat ganti memori terbang kita!</p>
     </div>
 
-    <!-- Tombol Utama Game -->
-    <div class="mb-4">
-        <button id="mainClickBtn" onclick="hitungKlik()" style="font-family: 'Press Start 2P', cursive; font-size: 12px;" class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-4 border-4 border-black active:translate-y-1 shadow-[4px_4px_0px_#000] w-full max-w-xs transition-all">
-            👉 SEGERA KLIK DI SINI! 👈
-        </button>
-    </div>
-
-    <!-- Tombol Reset -->
-    <button id="resetClickBtn" onclick="mulaiUlangGame()" style="font-family: 'VT323', monospace; font-size: 18px;" class="text-gray-400 hover:text-white underline hidden">
-        Main Lagi / Reset
-    </button>
-
-    <!-- Hasil Gelar -->
-    <div id="gelarResultArea" class="mt-4 p-3 bg-black border-2 border-dashed border-gray-700 hidden">
-        <p style="font-family: 'VT323', monospace; font-size: 22px;" class="text-gray-300">Gelar Kamu:</p>
-        <p id="textGelar" style="font-family: 'Press Start 2P', cursive; font-size: 11px;" class="text-yellow-400 mt-1 animate-bounce">-</p>
-    </div>
-</div>
-
-<script>
-    let jumlahKlik = 0;
-    let sisaWaktu = 5;
-    let gameSedangBerjalan = false;
-    let gameSudahSelesai = false;
-    let timerInterval = null;
-
-    // Fungsi audio beep bawaan browser
-    function suaraKlikRetro(freq, dur) {
-        if (window.AudioContext || window.webkitAudioContext) {
-            let ctx = new (window.AudioContext || window.webkitAudioContext)();
-            let osc = ctx.createOscillator();
-            let gain = ctx.createGain();
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(freq, ctx.currentTime);
-            gain.gain.setValueAtTime(0.05, ctx.currentTime);
-            osc.connect(gain); gain.connect(ctx.destination);
-            osc.start(); osc.stop(ctx.currentTime + dur);
-        }
-    }
-
-    window.hitungKlik = function() {
-        if (gameSudahSelesai) return;
-
-        // Jika ini klik pertama, mulai jalankan timer otomatis
-        if (!gameSedangBerjalan) {
-            gameSedangBerjalan = true;
-            document.getElementById('resetClickBtn').classList.add('hidden');
-            document.getElementById('gelarResultArea').classList.add('hidden');
+    <!-- Wadah Balon Udara -->
+    <div class="relative w-full max-w-xs mx-auto flex flex-col items-center justify-center min-h-[350px]">
+        <div id="hotAirBalloon" class="relative flex flex-col items-center cursor-pointer select-none" onclick="gantiFotoLangitLokal()">
             
-            timerInterval = setInterval(() => {
-                sisaWaktu--;
-                document.getElementById('clickTimer').innerText = sisaWaktu;
-                
-                if (sisaWaktu <= 0) {
-                    selesaiGame();
-                } else {
-                    suaraKlikRetro(400, 0.05); // Suara tik-tok detikan waktu
-                }
-            }, 1000);
-        }
+            <!-- Kubah Balon + Frame Foto -->
+            <div class="w-56 h-56 bg-gradient-to-tr from-pink-500 via-purple-600 to-cyan-500 rounded-full p-3 border-4 border-black shadow-[0_10px_20px_rgba(0,0,0,0.5)] flex items-center justify-center relative">
+                <div class="w-full h-full bg-slate-900 rounded-full overflow-hidden border-4 border-yellow-400 flex items-center justify-center relative">
+                    <!-- 💡 GANTI LINK DI BAWAH INI DENGAN FOTO KALIAN -->
+                    <img id="fotoDiBalonLokal" src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=400" class="w-full h-full object-cover transition-opacity duration-300" alt="Foto Geng">
+                    <div class="absolute bottom-0 inset-x-0 bg-black/70 py-1 text-center">
+                        <span id="captionFotoLangitLokal" style="font-family: 'VT323', monospace; font-size: 14px;" class="text-yellow-300">"Petualangan Dimulai! 🚀"</span>
+                    </div>
+                </div>
+            </div>
 
-        // Tambah skor klik
-        jumlahKlik++;
-        document.getElementById('clickScore').innerText = jumlahKlik;
-        suaraKlikRetro(600, 0.03); // Suara setiap kali klik berhasil
-    };
+            <!-- Tali Balon -->
+            <div class="flex justify-between w-24 h-8 px-4"><div class="w-1 h-full bg-yellow-600/80"></div><div class="w-1 h-full bg-yellow-600/80"></div></div>
 
-    function selesaiGame() {
-        clearInterval(timerInterval);
-        gameSedangBerjalan = false;
-        gameSudahSelesai = true;
-        
-        const btnKlik = document.getElementById('mainClickBtn');
-        btnKlik.innerText = "🔒 WAKTU HABIS!";
-        btnKlik.className = "bg-gray-700 text-gray-400 px-6 py-4 border-4 border-black w-full max-w-xs cursor-not-allowed";
-        
-        document.getElementById('resetClickBtn').classList.remove('hidden');
-        
-        // Tentukan gelar kocak berdasarkan jumlah klik
-        let gelar = "";
-        if (jumlahKlik <= 15) {
-            gelar = "🐌 SIPUT SEDENTARI (Jari Kamu Kurang Kopi)";
-            suaraKlikRetro(200, 0.4);
-        } else if (jumlahKlik > 15 && jumlahKlik <= 30) {
-            gelar = "🐹 JURAGAN WARNET (Kecepatan Standar Rakyat Jelata)";
-            suaraKlikRetro(500, 0.2);
-        } else if (jumlahKlik > 30 && jumlahKlik <= 45) {
-            gelar = "⚡ DEWA HYPERCLICK (Jarimu Mengandung Aliran Listrik!)";
-            suaraKlikRetro(800, 0.3);
-        } else {
-            gelar = "🤖 CYBORG ROBOT (Fiks Pake Cheat / Jempolmu Ada Dua Puluh!)";
-            suaraKlikRetro(1200, 0.5);
-        }
-
-        document.getElementById('textGelar').innerText = gelar;
-        document.getElementById('gelarResultArea').classList.remove('hidden');
-    }
-
-    window.mulaiUlangGame() = function() {
-        jumlahKlik = 0;
-        sisaWaktu = 5;
-        gameSedangBerjalan = false;
-        gameSudahSelesai = false;
-        
-        document.getElementById('clickScore').innerText = "0";
-        document.getElementById('clickTimer').innerText = "5";
-        
-        const btnKlik = document.getElementById('mainClickBtn');
-        btnKlik.innerText = "👉 SEGERA KLIK DI SINI! 👈";
-        btnKlik.className = "bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-4 border-4 border-black active:translate-y-1 shadow-[4px_4px_0px_#000] w-full max-w-xs transition-all";
-        
-        document.getElementById('resetClickBtn').classList.add('hidden');
-        document.getElementById('gelarResultArea').classList.add('hidden');
-        suaraKlikRetro(700, 0.1);
-    };
-</script>
-<!-- ======================================================== -->
-    <!-- ======================================================== -->
-<!-- FITUR BARU: PIXEL WISH LANTERN (ESTETIK & PENUH HARAPAN) -->
-<!-- ======================================================== -->
-<div class="bg-[#090514] border-4 border-yellow-500 p-5 rounded text-center my-10 max-w-[800px] mx-auto shadow-[6px_6px_0px_#000] text-white relative overflow-hidden min-h-[300px]">
-    <h3 style="font-family: 'Press Start 2P', cursive; font-size: 11px;" class="text-yellow-400 mb-2">🏮 PIXEL WISH LANTERN</h3>
-    <p style="font-family: 'VT323', monospace; font-size: 20px;" class="text-gray-400 mb-4">Tulis satu kata harapanmu untuk Is, Mbg, Vino, Angel, Ejajuk, lalu terbangkan ke langit malam.</p>
-    
-    <!-- Form Input Harapan -->
-    <div class="max-w-md mx-auto flex gap-2 mb-6 relative z-10">
-        <input type="text" id="inputHarapan" style="font-family: 'VT323', monospace; font-size: 20px;" class="w-full p-2 bg-black/80 border-2 border-yellow-500 text-white outline-none text-center rounded" placeholder="Contoh: Sukses Bareng / Solid Terus..." maxlength="30">
-        <button onclick="terbangkanLentera()" style="font-family: 'Press Start 2P', cursive; font-size: 9px;" class="bg-yellow-600 hover:bg-yellow-500 text-black px-4 py-2 border-2 border-black active:translate-y-1 shadow-[2px_2px_0px_#000] font-bold shrink-0">
-            TERBANGKAN!
-        </button>
-    </div>
-
-    <!-- Area Langit Tempat Lentera Terbang -->
-    <div id="skyArea" class="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        <!-- Lentera-lentera pixel akan terbang melayang di sini -->
-    </div>
-
-    <!-- Kutipan Kata Bijak Persahabatan -->
-    <div class="relative z-10 mt-20 pt-4 border-t border-dashed border-gray-800">
-        <p id="quotePersahabatan" style="font-family: 'VT323', monospace; font-size: 22px;" class="text-purple-300 italic">
-            "Satu lentera untuk satu cerita yang kita ukir bersama."
-        </p>
+            <!-- Keranjang -->
+            <div class="w-20 h-14 bg-amber-800 border-4 border-black rounded shadow-[4px_4px_0px_#000] flex flex-col items-center justify-center">
+                <span style="font-family: 'Press Start 2P', cursive; font-size: 8px;" class="text-white font-bold">BERLIMA</span>
+            </div>
+        </div>
     </div>
 </div>
 
+<style>
+    #hotAirBalloon { animation: floatAnimation 4s ease-in-out infinite; }
+    @keyframes floatAnimation {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+    }
+</style>
+
 <script>
-    const kumpulanQuote = [
-        "Teman itu seperti pixel di layar, kalau hilang satu memang kecil, tapi layarnya jadi gak sempurna.",
-        "Gak penting seberapa jauh kita nanti, yang penting memori di web ini gak bakal kena delete.",
-        "Sukses sendiri itu biasa, sukses bareng Is, Mbg, Vino, Angel, Ejajuk baru luar biasa! 🥂",
-        "Dunia boleh berubah jadi 4K atau 8K, tapi kenangan pixel kita tetep yang paling juara.",
-        "Terima kasih sudah menjadi bagian dari kodingan hidup yang paling berwarna. ✨"
+    let idxLangit = 0;
+    // 💡 GANTI URL & CAPTION DI BAWAH INI SESUAI FOTO GENG KALIAN
+    const listLangit = [
+        { url: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=400", cap: "Mencapai langit bareng Is, Mbg, Vino, Angel, Ejajuk! ✨" },
+        { url: "https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=400", cap: "Foto absurd pas lagi kumpul bareng 🎈" },
+        { url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400", cap: "Menolak normal, yang penting seru! 🤪" }
     ];
 
-    function sfxLentera(freq, dur) {
-        if (window.AudioContext || window.webkitAudioContext) {
-            let ctx = new (window.AudioContext || window.webkitAudioContext)();
-            let osc = ctx.createOscillator();
-            let gain = ctx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(freq, ctx.currentTime);
-            gain.gain.setValueAtTime(0.08, ctx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + dur);
-            osc.connect(gain); gain.connect(ctx.destination);
-            osc.start(); osc.stop(ctx.currentTime + dur);
+    function gantiFotoLangitLokal() {
+        idxLangit = (idxLangit + 1) % listLangit.length;
+        const img = document.getElementById('fotoDiBalonLokal');
+        const cap = document.getElementById('captionFotoLangitLokal');
+        if (img && cap) {
+            img.style.opacity = '0.3';
+            setTimeout(() => {
+                img.src = listLangit[idxLangit].url;
+                cap.innerText = listLangit[idxLangit].cap;
+                img.style.opacity = '1';
+            }, 150);
         }
     }
-
-    window.terbangkanLentera = function() {
-        const input = document.getElementById('inputHarapan');
-        const teksHarapan = input.value.trim();
-
-        if (!teksHarapan) {
-            alert("Tulis dulu harapan atau doamu, jangan dikosongin ya!");
-            return;
-        }
-
-        sfxLentera(440, 0.2);
-        setTimeout(() => sfxLentera(554.37, 0.4), 100);
-
-        // Buat elemen lentera baru
-        const sky = document.getElementById('skyArea');
-        const lantern = document.createElement('div');
-        
-        // Desain lentera mengambang
-        lantern.className = "absolute text-center flex flex-col items-center pointer-events-none";
-        lantern.style.left = (Math.random() * 60 + 20) + "%"; 
-        lantern.style.bottom = "-50px";
-        lantern.style.transition = "transform 6s cubic-bezier(0.25, 1, 0.5, 1), opacity 5.5s ease-in";
-        
-        // Isi lentera (Emoji Lentera + Teks Doa Kecil di bawahnya)
-        lantern.innerHTML = `
-            <span class="text-3xl filter drop-shadow-[0_0_8px_#f59e0b]">🏮</span>
-            <span style="font-family: 'VT323', monospace; font-size: 16px; width: max-content; background: rgba(0,0,0,0.6);" class="text-yellow-300 px-1 rounded block mt-1">${teksHarapan}</span>
-        `;
-
-        sky.appendChild(lantern);
-
-        // trigger animasi terbang ke atas langit web
-        setTimeout(() => {
-            lantern.style.transform = "translateY(-320px) scale(0.6)";
-            lantern.style.opacity = "0";
-        }, 50);
-
-        // Hapus elemen setelah terbang hilang
-        setTimeout(() => {
-            lantern.remove();
-        }, 6000);
-
-        // Ganti teks kutipan persahabatan secara acak
-        const indeksAcak = Math.floor(Math.random() * kumpulanQuote.length);
-        document.getElementById('quotePersahabatan').innerText = `"${kumpulanQuote[indeksAcak]}"`;
-
-        // Kosongkan form kembali
-        input.value = "";
-    };
-    // ========================================================
-    // LOGIKA GAME TANGKAP KENANGAN JATUH & BINTANG KELAP-KELIP
-    // ========================================================
-    let scoreTangkap = 0;
-    let basketLeft = 40; // Posisi awal dalam persen
-    let objTop = -30;
-    let objLeft = Math.random() * 85; // Posisi acak horizontal
-    const listEmojiJatuh = ['⭐', '💖', '🎉', '🍦', '🍕', '💎'];
-    let emojiSekarang = '⭐';
-
-    // 1. Efek Bintang Kelap Kelip Otomatis di background kosong
-    const starArea = document.getElementById('starBgArea');
-    if (starArea) {
-        for (let i = 0; i < 15; i++) {
-            const star = document.createElement('div');
-            star.innerText = '✨';
-            star.className = 'absolute text-xs animate-pulse';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = (Math.random() * 2) + 's';
-            starArea.appendChild(star);
-        }
-    }
-
-    // 2. Kontrol Geser Keranjang
-    window.geserBasket = function(arah) {
-        const basket = document.getElementById('basketObj');
-        basketLeft += arah === 25 ? 8 : -8; // Sensitivitas geser
-        
-        // Batasi agar tidak keluar layar game
-        if (basketLeft < 0) basketLeft = 0;
-        if (basketLeft > 80) basketLeft = 80;
-        
-        basket.style.left = basketLeft + '%';
-    };
-
-    // 3. Loop Jatuhnya Objek
-    setInterval(() => {
-        const obj = document.getElementById('fallingObj');
-        const basket = document.getElementById('basketObj');
-        
-        if (!obj || !basket) return;
-
-        objTop += 5; // Kecepatan jatuh
-        obj.style.top = objTop + 'px';
-
-        // Jika objek menyentuh area bawah (keranjang)
-        if (objTop >= 160 && objTop <= 185) {
-            // Cek tabrakan horizontal antara objek dan keranjang (konversi persen perkiraan)
-            if (Math.abs(objLeft - basketLeft) < 15) {
-                scoreTangkap++;
-                document.getElementById('catchScore').innerText = scoreTangkap;
-                
-                // Efek nada dapet poin ringan
-                if (window.AudioContext || window.webkitAudioContext) {
-                    let ctx = new (window.AudioContext || window.webkitAudioContext)();
-                    let o = ctx.createOscillator(); let g = ctx.createGain();
-                    o.frequency.setValueAtTime(800, ctx.currentTime);
-                    g.gain.setValueAtTime(0.03, ctx.currentTime);
-                    o.connect(g); g.connect(ctx.destination);
-                    o.start(); o.stop(ctx.currentTime + 0.05);
-                }
-                
-                resetObjekJatuh();
-            }
-        }
-
-        // Jika objek lolos jatuh ke lantai bawah
-        if (objTop > 190) {
-            resetObjekJatuh();
-        }
-    }, 40);
-
-    function resetObjekJatuh() {
-        objTop = -30;
-        objLeft = Math.random() * 85;
-        emojiSekarang = listEmojiJatuh[Math.floor(Math.random() * listEmojiJatuh.length)];
-        
-        const obj = document.getElementById('fallingObj');
-        if (obj) {
-            obj.style.left = objLeft + '%';
-            obj.innerText = emojiSekarang;
-        }
-    }
-    // ========================================================
 </script>
 <!-- ======================================================== -->
 </body>
