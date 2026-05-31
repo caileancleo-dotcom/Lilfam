@@ -1004,5 +1004,135 @@
     };
 </script>
 <!-- ======================================================== -->
+    <!-- ======================================================== -->
+<!-- FITUR BARU: PIXEL BUTTON CLICKER SHOWDOWN (SERU & KOCAK) -->
+<!-- ======================================================== -->
+<div class="bg-[#0f172a] border-4 border-emerald-400 p-5 rounded text-center my-10 max-w-[800px] mx-auto shadow-[6px_6px_0px_#000] text-white">
+    <h3 style="font-family: 'Press Start 2P', cursive; font-size: 11px;" class="text-emerald-400 mb-2">🕹️ PIXEL CLICKER SHOWDOWN</h3>
+    <p style="font-family: 'VT323', monospace; font-size: 20px;" class="text-gray-400 mb-4">Uji kecepatan jarimu! Klik sebanyak mungkin dalam 5 detik untuk mendapat Gelar Kasta Tertinggi.</p>
+    
+    <!-- Area Skor dan Waktu -->
+    <div class="flex justify-center gap-8 mb-4 font-mono text-xl">
+        <div>⏱️ Waktu: <span id="clickTimer" class="text-yellow-400 font-bold">5</span>s</div>
+        <div>🎯 Total Klik: <span id="clickScore" class="text-cyan-400 font-bold">0</span></div>
+    </div>
+
+    <!-- Tombol Utama Game -->
+    <div class="mb-4">
+        <button id="mainClickBtn" onclick="hitungKlik()" style="font-family: 'Press Start 2P', cursive; font-size: 12px;" class="bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-4 border-4 border-black active:translate-y-1 shadow-[4px_4px_0px_#000] w-full max-w-xs transition-all">
+            👉 SEGERA KLIK DI SINI! 👈
+        </button>
+    </div>
+
+    <!-- Tombol Reset -->
+    <button id="resetClickBtn" onclick="mulaiUlangGame()" style="font-family: 'VT323', monospace; font-size: 18px;" class="text-gray-400 hover:text-white underline hidden">
+        Main Lagi / Reset
+    </button>
+
+    <!-- Hasil Gelar -->
+    <div id="gelarResultArea" class="mt-4 p-3 bg-black border-2 border-dashed border-gray-700 hidden">
+        <p style="font-family: 'VT323', monospace; font-size: 22px;" class="text-gray-300">Gelar Kamu:</p>
+        <p id="textGelar" style="font-family: 'Press Start 2P', cursive; font-size: 11px;" class="text-yellow-400 mt-1 animate-bounce">-</p>
+    </div>
+</div>
+
+<script>
+    let jumlahKlik = 0;
+    let sisaWaktu = 5;
+    let gameSedangBerjalan = false;
+    let gameSudahSelesai = false;
+    let timerInterval = null;
+
+    // Fungsi audio beep bawaan browser
+    function suaraKlikRetro(freq, dur) {
+        if (window.AudioContext || window.webkitAudioContext) {
+            let ctx = new (window.AudioContext || window.webkitAudioContext)();
+            let osc = ctx.createOscillator();
+            let gain = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, ctx.currentTime);
+            gain.gain.setValueAtTime(0.05, ctx.currentTime);
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.start(); osc.stop(ctx.currentTime + dur);
+        }
+    }
+
+    window.hitungKlik = function() {
+        if (gameSudahSelesai) return;
+
+        // Jika ini klik pertama, mulai jalankan timer otomatis
+        if (!gameSedangBerjalan) {
+            gameSedangBerjalan = true;
+            document.getElementById('resetClickBtn').classList.add('hidden');
+            document.getElementById('gelarResultArea').classList.add('hidden');
+            
+            timerInterval = setInterval(() => {
+                sisaWaktu--;
+                document.getElementById('clickTimer').innerText = sisaWaktu;
+                
+                if (sisaWaktu <= 0) {
+                    selesaiGame();
+                } else {
+                    suaraKlikRetro(400, 0.05); // Suara tik-tok detikan waktu
+                }
+            }, 1000);
+        }
+
+        // Tambah skor klik
+        jumlahKlik++;
+        document.getElementById('clickScore').innerText = jumlahKlik;
+        suaraKlikRetro(600, 0.03); // Suara setiap kali klik berhasil
+    };
+
+    function selesaiGame() {
+        clearInterval(timerInterval);
+        gameSedangBerjalan = false;
+        gameSudahSelesai = true;
+        
+        const btnKlik = document.getElementById('mainClickBtn');
+        btnKlik.innerText = "🔒 WAKTU HABIS!";
+        btnKlik.className = "bg-gray-700 text-gray-400 px-6 py-4 border-4 border-black w-full max-w-xs cursor-not-allowed";
+        
+        document.getElementById('resetClickBtn').classList.remove('hidden');
+        
+        // Tentukan gelar kocak berdasarkan jumlah klik
+        let gelar = "";
+        if (jumlahKlik <= 15) {
+            gelar = "🐌 SIPUT SEDENTARI (Jari Kamu Kurang Kopi)";
+            suaraKlikRetro(200, 0.4);
+        } else if (jumlahKlik > 15 && jumlahKlik <= 30) {
+            gelar = "🐹 JURAGAN WARNET (Kecepatan Standar Rakyat Jelata)";
+            suaraKlikRetro(500, 0.2);
+        } else if (jumlahKlik > 30 && jumlahKlik <= 45) {
+            gelar = "⚡ DEWA HYPERCLICK (Jarimu Mengandung Aliran Listrik!)";
+            suaraKlikRetro(800, 0.3);
+        } else {
+            gelar = "🤖 CYBORG ROBOT (Fiks Pake Cheat / Jempolmu Ada Dua Puluh!)";
+            suaraKlikRetro(1200, 0.5);
+        }
+
+        document.getElementById('textGelar').innerText = gelar;
+        document.getElementById('gelarResultArea').classList.remove('hidden');
+    }
+
+    window.mulaiUlangGame() = function() {
+        jumlahKlik = 0;
+        sisaWaktu = 5;
+        gameSedangBerjalan = false;
+        gameSudahSelesai = false;
+        
+        document.getElementById('clickScore').innerText = "0";
+        document.getElementById('clickTimer').innerText = "5";
+        
+        const btnKlik = document.getElementById('mainClickBtn');
+        btnKlik.innerText = "👉 SEGERA KLIK DI SINI! 👈";
+        btnKlik.className = "bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-4 border-4 border-black active:translate-y-1 shadow-[4px_4px_0px_#000] w-full max-w-xs transition-all";
+        
+        document.getElementById('resetClickBtn').classList.add('hidden');
+        document.getElementById('gelarResultArea').classList.add('hidden');
+        suaraKlikRetro(700, 0.1);
+    };
+</script>
+<!-- ======================================================== -->
 </body>
 </html>
