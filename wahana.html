@@ -3,224 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geng Strategy Zone 💥</title>
-    <!-- CDN Tailwind CSS -->
+    <title>Our Memory Garden 🌸</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #0d0e12;
-            background-image: linear-gradient(#15171e 1.5px, transparent 1.5px), linear-gradient(90deg, #15171e 1.5px, transparent 1.5px);
-            background-size: 30px 30px;
+        body { background: #0c120c; font-family: 'Georgia', serif; }
+        .tree-container { position: relative; width: 300px; height: 350px; margin: auto; }
+        .fruit-photo { 
+            position: absolute; width: 60px; height: 60px; border-radius: 50%; 
+            border: 3px solid #f0fdf4; cursor: pointer; transition: transform 0.3s;
+            background-size: cover; background-position: center;
         }
+        .fruit-photo:hover { transform: scale(1.2) rotate(5deg); z-index: 10; }
+        .flower-bed { transition: opacity 0.3s; }
+        .flower-bed:hover { opacity: 0.7; cursor: help; }
     </style>
 </head>
-<body class="text-gray-200 min-h-screen p-4 flex flex-col items-center justify-start pb-24">
+<body class="text-green-100 min-h-screen p-8">
 
-    <!-- 💡 LINK KAN CONFIG FIREBASE KAMU DI SINI BIAR FITUR REAL-TIME NYA JALAN -->
-    <!-- 
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    <script>
-      var firebaseConfig = { ...salinConfigKamuDiSini... };
-      firebase.initializeApp(firebaseConfig);
-      var database = firebase.database();
-    </script> 
-    -->
+    <div class="max-w-3xl mx-auto text-center">
+        <h1 class="text-4xl italic text-green-300 mb-2">The Garden of Memories</h1>
+        <p class="text-green-600 mb-12">Tempat di mana momen berlima kita tumbuh abadi.</p>
 
-    <!-- Tombol Navigasi -->
-    <div class="w-full max-w-3xl mb-8 flex justify-between items-center border-b border-gray-800 pb-3">
-        <a href="index.html" class="text-sm text-cyan-400 hover:underline">← Kembali</a>
-        <span class="text-xs font-mono tracking-widest text-gray-500 uppercase">Geng Lounge v2.0</span>
-    </div>
-
-    <!-- Container Utama -->
-    <div class="w-full max-w-3xl flex flex-col gap-8">
-
-        <!-- ================= GAME 1: LIAR GAME (TEBAK SIAPA THE LIAR) ================= -->
-        <div class="bg-gray-950 border border-cyan-500/30 p-6 rounded-xl shadow-2xl">
-            <div class="flex justify-between items-start mb-4">
-                <div>
-                    <span class="bg-cyan-500/10 text-cyan-400 text-[10px] font-mono px-2 py-0.5 rounded-full uppercase">Mind Game</span>
-                    <h2 class="text-xl font-bold mt-1 text-white">🕵️ Game Si Liar (Liar Game)</h2>
-                </div>
-                <button onclick="acakPeranLiar()" class="bg-cyan-600 hover:bg-cyan-500 text-gray-950 text-xs font-bold px-3 py-1.5 rounded-lg transition-colors">
-                    Mulai Room Baru
-                </button>
-            </div>
-            <p class="text-xs text-gray-400 mb-4">Pilih namamu buat ngintip kartu rahasia lewat HP-mu. Satu orang di antara kalian bakal dapet kata yang berbeda (Si Liar). Cari tahu siapa pembohongnya lewat interogasi!</p>
-
-            <!-- Menu Intip Kartu -->
-            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-4">
-                <button onclick="intipKataRaasiah('Is')" class="bg-gray-900 hover:bg-gray-800 border border-gray-800 p-2 text-xs rounded-lg font-medium text-gray-300">Is</button>
-                <button onclick="intipKataRaasiah('Mbg')" class="bg-gray-900 hover:bg-gray-800 border border-gray-800 p-2 text-xs rounded-lg font-medium text-gray-300">Mbg</button>
-                <button onclick="intipKataRaasiah('Vino')" class="bg-gray-900 hover:bg-gray-800 border border-gray-800 p-2 text-xs rounded-lg font-medium text-gray-300">Vino</button>
-                <button onclick="intipKataRaasiah('Angel')" class="bg-gray-900 hover:bg-gray-800 border border-gray-800 p-2 text-xs rounded-lg font-medium text-gray-300">Angel</button>
-                <button onclick="intipKataRaasiah('Ejajuk')" class="bg-gray-900 hover:bg-gray-800 border border-gray-800 p-2 text-xs rounded-lg font-medium text-gray-300 col-span-2 sm:col-span-1">Ejajuk</button>
-            </div>
-
-            <!-- Box Hasil Intip (Pop-up lokal) -->
-            <div id="boxIntip" class="hidden p-4 bg-gray-900 border border-dashed border-gray-700 rounded-lg text-center relative">
-                <span class="text-[10px] text-gray-500 block mb-1">KARTU RAHASIA KAMU:</span>
-                <p id="teksKataRahasia" class="text-lg font-bold text-yellow-400">---</p>
-                <button onclick="tutupBoxIntip()" class="absolute top-2 right-2 text-xs text-gray-500 hover:text-white">✕ Tutup</button>
-            </div>
-        </div>
-
-
-        <!-- ================= GAME 2: BLUFFING DECK (TARUHAN SKOR & NYALI) ================= -->
-        <div class="bg-gray-950 border border-emerald-500/30 p-6 rounded-xl shadow-2xl text-center">
-            <div class="text-left mb-4">
-                <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-mono px-2 py-0.5 rounded-full uppercase">Risk & Strategy</span>
-                <h2 class="text-xl font-bold mt-1 text-white">🃏 Kartu Taruhan Nyali</h2>
-            </div>
+        <!-- POHON MEMORI -->
+        <div class="tree-container mb-20">
+            <!-- Batang Pohon (Visual) -->
+            <div class="absolute bottom-0 left-1/2 -ml-4 w-8 h-64 bg-amber-900 rounded-t-lg"></div>
+            <div class="absolute bottom-60 left-1/2 -ml-20 w-40 h-40 bg-green-800 rounded-full"></div>
             
-            <div class="bg-gradient-to-br from-gray-900 to-slate-900 border border-gray-800 p-6 rounded-xl min-h-[120px] flex flex-col justify-center items-center mb-4">
-                <div id="skorTaruhan" class="text-xs text-emerald-400 font-mono mb-1">NILAI KARTU: +10 POIN</div>
-                <p id="isiKartuTantangan" class="text-sm text-gray-300 font-medium">"Tarik kartu untuk memulai permainan taktik gertakan..."</p>
-            </div>
-
-            <div class="flex gap-2 justify-center">
-                <button onclick="tarikKartuBaru()" class="bg-emerald-600 hover:bg-emerald-500 text-gray-950 font-bold py-2.5 px-4 rounded-lg text-xs transition-colors">
-                    Tarik Kartu
-                </button>
-                <button onclick="operTantangan()" class="bg-gray-900 hover:bg-gray-800 border border-gray-700 text-gray-300 font-medium py-2.5 px-4 rounded-lg text-xs transition-colors">
-                    Oper/Gertak Temen 🤝
-                </button>
-            </div>
-            <p class="text-[11px] text-gray-500 mt-2">Aturan: Lo bisa kerjain tantangannya buat dapet poin, atau oper ke temen sebelah buat jebak mereka dapet minus poin kalau mereka gak berani gertak balik!</p>
+            <!-- BUAH FOTO (Admin bisa ganti URL fotonya di bawah) -->
+            <div class="fruit-photo" style="top: 20px; left: 40px; background-image: url('https://via.placeholder.com/150');" title="Momen Is"></div>
+            <div class="fruit-photo" style="top: 10px; right: 40px; background-image: url('https://via.placeholder.com/150');" title="Momen Mbg"></div>
+            <div class="fruit-photo" style="top: 80px; left: 10px; background-image: url('https://via.placeholder.com/150');" title="Momen Vino"></div>
+            <div class="fruit-photo" style="top: 80px; right: 10px; background-image: url('https://via.placeholder.com/150');" title="Momen Angel"></div>
+            <div class="fruit-photo" style="top: 140px; left: 120px; background-image: url('https://via.placeholder.com/150');" title="Momen Ejajuk"></div>
         </div>
 
-
-        <!-- ================= GAME 3: BOM WAKTU REAL-TIME (TICKING BOMB) ================= -->
-        <div class="bg-gray-950 border border-rose-500/30 p-6 rounded-xl shadow-2xl text-center">
-            <div class="text-left mb-4">
-                <span class="bg-rose-500/10 text-rose-400 text-[10px] font-mono px-2 py-0.5 rounded-full uppercase">Speed Party Game</span>
-                <h2 class="text-xl font-bold mt-1 text-white">💥 Bom Waktu Tongkrongan</h2>
-            </div>
-
-            <div class="bg-black/40 border border-gray-800 rounded-xl p-4 mb-4 max-w-sm mx-auto">
-                <div class="text-4xl mb-2 animate-bounce">💣</div>
-                <div class="text-xs text-gray-500 uppercase">Posisi Bom Saat Ini:</div>
-                <div id="pemegangBom" class="text-xl font-extrabold text-rose-500 my-1">-</div>
-                <div class="text-xs font-mono text-yellow-500">Sebutkan: <span id="temaBom" class="underline">Nama Brand Sepatu</span></div>
-            </div>
-
-            <div class="flex flex-wrap gap-2 justify-center">
-                <button onclick="lemparBom('Is')" class="bg-gray-900 hover:bg-gray-800 border border-gray-700 px-3 py-1.5 rounded-lg text-xs">Oper ke Is</button>
-                <button onclick="lemparBom('Mbg')" class="bg-gray-900 hover:bg-gray-800 border border-gray-700 px-3 py-1.5 rounded-lg text-xs">Oper ke Mbg</button>
-                <button onclick="lemparBom('Vino')" class="bg-gray-900 hover:bg-gray-800 border border-gray-700 px-3 py-1.5 rounded-lg text-xs">Oper ke Vino</button>
-                <button onclick="lemparBom('Angel')" class="bg-gray-900 hover:bg-gray-800 border border-gray-700 px-3 py-1.5 rounded-lg text-xs">Oper ke Angel</button>
-                <button onclick="lemparBom('Ejajuk')" class="bg-gray-900 hover:bg-gray-800 border border-gray-700 px-3 py-1.5 rounded-lg text-xs">Oper ke Ejajuk</button>
-            </div>
-            <button onclick="mulaiBomGame()" class="mt-4 text-xs text-rose-400 underline block mx-auto">Aktifkan Bom Baru</button>
+        <!-- PETAK BUNGA -->
+        <div class="grid grid-cols-5 gap-4">
+            <div class="flower-bed" title="Is: Selalu tenang kayak bunga matahari">🌻 <p class="text-xs">Is</p></div>
+            <div class="flower-bed" title="Mbg: Anggun tapi berduri">🌹 <p class="text-xs">Mbg</p></div>
+            <div class="flower-bed" title="Vino: Tumbuh di mana saja">🍀 <p class="text-xs">Vino</p></div>
+            <div class="flower-bed" title="Angel: Lembut dan menenangkan">🌸 <p class="text-xs">Angel</p></div>
+            <div class="flower-bed" title="Ejajuk: Unik dan beda sendiri">✨ <p class="text-xs">Ejajuk</p></div>
         </div>
 
+        <div class="mt-16 text-xs text-green-800">
+            *Admin: Ganti link 'https://via.placeholder.com/150' di kode untuk update foto buah.*
+        </div>
     </div>
-
-    <!-- ======================================================== -->
-    <!-- LOGIKA SCRIPT GAME TAKTIS TONGKRONGAN                     -->
-    <!-- ======================================================== -->
-    <script>
-        // --- 1. LOGIKA GAME 1: LIAR GAME ENGINE ---
-        const dataKataLiar = [
-            { normal: "Kopi Hitam", liar: "Teh Manis" },
-            { normal: "Instagram", liar: "TikTok" },
-            { normal: "Nasi Goreng", liar: "Mie Goreng" },
-            { normal: "Bursa Saham", liar: "Crypto" },
-            { normal: "KRL / Commuterline", liar: "Angkot" }
-        ];
-        
-        let roomLiarGame = { Is: "", Mbg: "", Vino: "", Angel: "", Ejajuk: "" };
-
-        function acakPeranLiar() {
-            if (typeof database !== 'undefined') {
-                // Jalur Firebase Aktif (Bisa sinkron antar HP temen)
-                let setKata = dataKataLiar[Math.floor(Math.random() * dataKataLiar.length)];
-                let listNama = ["Is", "Mbg", "Vino", "Angel", "Ejajuk"];
-                let namaLiar = listNama[Math.floor(Math.random() * listNama.length)];
-
-                listNama.forEach(nama => {
-                    roomLiarGame[nama] = (nama === namaLiar) ? setKata.liar : setKata.normal;
-                });
-                database.ref('liarGameRoom').set(roomLiarGame);
-                alert("Room Baru Berhasil Diacak! Silakan masing-masing anak klik namanya buat ngintip.");
-            } else {
-                // Simulasi Lokal jika belum pasang Firebase config
-                let setKata = dataKataLiar[Math.floor(Math.random() * dataKataLiar.length)];
-                let listNama = ["Is", "Mbg", "Vino", "Angel", "Ejajuk"];
-                let namaLiar = listNama[Math.floor(Math.random() * listNama.length)];
-                listNama.forEach(nama => {
-                    roomLiarGame[nama] = (nama === namaLiar) ? setKata.liar : setKata.normal;
-                });
-                alert("Room Lokal Siap! Jangan sampai temen sebelah lu ngintip layar HP lo pas ngeklik nama ya.");
-            }
-        }
-
-        function intipKataRaasiah(nama) {
-            const box = document.getElementById('boxIntip');
-            const teks = document.getElementById('teksKataRahasia');
-            box.classList.remove('hidden');
-
-            if (typeof database !== 'undefined') {
-                database.ref('liarGameRoom/' + nama).once('value').then((snap) => {
-                    teks.innerText = snap.val() || "Belum ada room aktif, klik tombol 'Mulai Room Baru' dulu.";
-                });
-            } else {
-                teks.innerText = roomLiarGame[nama] || "Belum diacak, klik 'Mulai Room Baru' dulu di atas.";
-            }
-        }
-        function tutupBoxIntip() { document.getElementById('boxIntip').classList.add('hidden'); }
-
-
-        // --- 2. LOGIKA GAME 2: BLUFFING DECK ---
-        const listTantanganBluff = [
-            "Sebutkan password HP lo sekarang atau lo dapet minus poin.",
-            "Tunjukkan mutasi saldo m-banking atau e-wallet terakhir lo ke orang di sebelah.",
-            "Buka history pencarian (search history) YouTube atau Google teratas lo tanpa dihapus.",
-            "Biarkan temen di sebelah kanan lo mengirim satu chat acak bebas dari HP lo ke grup chat kerjaan/keluarga."
-        ];
-        function tarikKartuBaru() {
-            let idx = Math.floor(Math.random() * listTantanganBluff.length);
-            let poinAcak = (Math.floor(Math.random() * 3) + 1) * 10;
-            document.getElementById('skorTaruhan').innerText = `NILAI KARTU: +${poinAcak} POIN`;
-            document.getElementById('isiKartuTantangan').innerText = `"${listTantanganBluff[idx]}"`;
-        }
-        function operTantangan() {
-            alert("Gertakan dikirim! Oper HP ini ke target temen lo yang dituju. Bilang ke dia: 'Ambil tantangan ini atau lu dapet minus poin!'");
-        }
-
-
-        // --- 3. LOGIKA GAME 3: TICKING BOMB ---
-        const listTemaBom = ["Merk Sepatu", "Nama Negara Tanpa Huruf 'A'", "Aplikasi di HP", "Makanan Berkuah", "Kata Kasar/Sarkas Tongkrongan"];
-        function mulaiBomGame() {
-            let tema = listTemaBom[Math.floor(Math.random() * listTemaBom.length)];
-            let namaAwal = ["Is", "Mbg", "Vino", "Angel", "Ejajuk"][Math.floor(Math.random() * 5)];
-            
-            if (typeof database !== 'undefined') {
-                database.ref('tickingBomb').set({ pemegang: namaAwal, tema: tema });
-            } else {
-                document.getElementById('pemegangBom').innerText = namaAwal;
-                document.getElementById('temaBom').innerText = tema;
-            }
-        }
-        function lemparBom(targetNama) {
-            if (typeof database !== 'undefined') {
-                database.ref('tickingBomb/pemegang').set(targetNama);
-            } else {
-                document.getElementById('pemegangBom').innerText = targetNama;
-            }
-        }
-
-        // Firebase Sync untuk Game Bom Waktu & Liar Game
-        if (typeof database !== 'undefined') {
-            database.ref('tickingBomb').on('value', (snap) => {
-                let data = snap.val() || { pemegang: "-", tema: "Belum dimulai" };
-                document.getElementById('pemegangBom').innerText = data.pemegang;
-                document.getElementById('temaBom').innerText = data.tema;
-            });
-        }
-    </script>
 </body>
-                    </html>
+</html>
