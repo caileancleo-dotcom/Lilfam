@@ -907,6 +907,39 @@
     <!-- ======================================================== -->
 <!-- FITUR BARU: PIXEL BUTTON CLICKER SHOWDOWN (SERU & KOCAK) -->
 <!-- ======================================================== -->
+    <!-- ======================================================== -->
+<!-- PENGISI AREA KOSONG: MINI GAME TANGKAP PIXEL & EFEK BINTANG -->
+<!-- ======================================================== -->
+<div class="relative max-w-[800px] mx-auto my-6 p-4 border-4 border-dashed border-purple-500 bg-black/40 rounded text-center text-white overflow-hidden">
+    
+    <!-- Efek Latar Belakang Kelap Kelip -->
+    <div id="starBgArea" class="absolute inset-0 pointer-events-none opacity-40"></div>
+
+    <div class="relative z-10">
+        <h3 style="font-family: 'Press Start 2P', cursive; font-size: 11px;" class="text-purple-400 mb-1">🎮 PIXEL FALLING CATCHER</h3>
+        <p style="font-family: 'VT323', monospace; font-size: 18px;" class="text-gray-400 mb-3">Geser keranjang dengan tombol di bawah untuk menangkap kenangan yang jatuh!</p>
+        
+        <!-- Score Board Mini -->
+        <div style="font-family: 'VT323', monospace; font-size: 20px;" class="text-yellow-400 mb-2">
+            ✨ Kenangan Tertangkap: <span id="catchScore" class="font-bold">0</span>
+        </div>
+
+        <!-- Layar Game Kecil -->
+        <div id="gameCanvas" class="relative w-full h-48 bg-slate-950 border-2 border-purple-700 mx-auto overflow-hidden max-w-sm rounded">
+            <!-- Objek Jatuh -->
+            <div id="fallingObj" class="absolute text-2xl select-none" style="top: -30px; left: 50%;">⭐</div>
+            <!-- Keranjang Pemain -->
+            <div id="basketObj" class="absolute bottom-2 bg-purple-600 border border-white text-xs px-2 py-0.5 rounded text-white font-sans font-bold" style="left: 40%; width: 70px;">🛒 GENG</div>
+        </div>
+
+        <!-- Tombol Kontrol Kiri Kanan -->
+        <div class="flex justify-center gap-4 mt-3">
+            <button onclick="geserBasket(-25)" style="font-family: 'Press Start 2P', cursive; font-size: 12px;" class="bg-purple-800 hover:bg-purple-700 text-white px-4 py-2 border-2 border-black active:translate-y-0.5 shadow-[2px_2px_0px_#000]">◀</button>
+            <button onclick="geserBasket(25)" style="font-family: 'Press Start 2P', cursive; font-size: 12px;" class="bg-purple-800 hover:bg-purple-700 text-white px-4 py-2 border-2 border-black active:translate-y-0.5 shadow-[2px_2px_0px_#000]">▶</button>
+        </div>
+    </div>
+</div>
+<!-- ======================================================== -->
 <div class="bg-[#0f172a] border-4 border-emerald-400 p-5 rounded text-center my-10 max-w-[800px] mx-auto shadow-[6px_6px_0px_#000] text-white">
     <h3 style="font-family: 'Press Start 2P', cursive; font-size: 11px;" class="text-emerald-400 mb-2">🕹️ PIXEL CLICKER SHOWDOWN</h3>
     <p style="font-family: 'VT323', monospace; font-size: 20px;" class="text-gray-400 mb-4">Uji kecepatan jarimu! Klik sebanyak mungkin dalam 5 detik untuk mendapat Gelar Kasta Tertinggi.</p>
@@ -1133,6 +1166,91 @@
         // Kosongkan form kembali
         input.value = "";
     };
+    // ========================================================
+    // LOGIKA GAME TANGKAP KENANGAN JATUH & BINTANG KELAP-KELIP
+    // ========================================================
+    let scoreTangkap = 0;
+    let basketLeft = 40; // Posisi awal dalam persen
+    let objTop = -30;
+    let objLeft = Math.random() * 85; // Posisi acak horizontal
+    const listEmojiJatuh = ['⭐', '💖', '🎉', '🍦', '🍕', '💎'];
+    let emojiSekarang = '⭐';
+
+    // 1. Efek Bintang Kelap Kelip Otomatis di background kosong
+    const starArea = document.getElementById('starBgArea');
+    if (starArea) {
+        for (let i = 0; i < 15; i++) {
+            const star = document.createElement('div');
+            star.innerText = '✨';
+            star.className = 'absolute text-xs animate-pulse';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = (Math.random() * 2) + 's';
+            starArea.appendChild(star);
+        }
+    }
+
+    // 2. Kontrol Geser Keranjang
+    window.geserBasket = function(arah) {
+        const basket = document.getElementById('basketObj');
+        basketLeft += arah === 25 ? 8 : -8; // Sensitivitas geser
+        
+        // Batasi agar tidak keluar layar game
+        if (basketLeft < 0) basketLeft = 0;
+        if (basketLeft > 80) basketLeft = 80;
+        
+        basket.style.left = basketLeft + '%';
+    };
+
+    // 3. Loop Jatuhnya Objek
+    setInterval(() => {
+        const obj = document.getElementById('fallingObj');
+        const basket = document.getElementById('basketObj');
+        
+        if (!obj || !basket) return;
+
+        objTop += 5; // Kecepatan jatuh
+        obj.style.top = objTop + 'px';
+
+        // Jika objek menyentuh area bawah (keranjang)
+        if (objTop >= 160 && objTop <= 185) {
+            // Cek tabrakan horizontal antara objek dan keranjang (konversi persen perkiraan)
+            if (Math.abs(objLeft - basketLeft) < 15) {
+                scoreTangkap++;
+                document.getElementById('catchScore').innerText = scoreTangkap;
+                
+                // Efek nada dapet poin ringan
+                if (window.AudioContext || window.webkitAudioContext) {
+                    let ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    let o = ctx.createOscillator(); let g = ctx.createGain();
+                    o.frequency.setValueAtTime(800, ctx.currentTime);
+                    g.gain.setValueAtTime(0.03, ctx.currentTime);
+                    o.connect(g); g.connect(ctx.destination);
+                    o.start(); o.stop(ctx.currentTime + 0.05);
+                }
+                
+                resetObjekJatuh();
+            }
+        }
+
+        // Jika objek lolos jatuh ke lantai bawah
+        if (objTop > 190) {
+            resetObjekJatuh();
+        }
+    }, 40);
+
+    function resetObjekJatuh() {
+        objTop = -30;
+        objLeft = Math.random() * 85;
+        emojiSekarang = listEmojiJatuh[Math.floor(Math.random() * listEmojiJatuh.length)];
+        
+        const obj = document.getElementById('fallingObj');
+        if (obj) {
+            obj.style.left = objLeft + '%';
+            obj.innerText = emojiSekarang;
+        }
+    }
+    // ========================================================
 </script>
 <!-- ======================================================== -->
 </body>
