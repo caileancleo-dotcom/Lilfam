@@ -1,10 +1,103 @@
-<!-- FIREBASE INTEGRATION (MODULE) -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Pixel Memories</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * { box-sizing: border-box; image-rendering: pixelated; }
+        body { margin: 0; padding: 0; background: linear-gradient(to bottom, #110620, #2c0e3e); color: #fff; font-family: 'VT323', monospace; font-size: 24px; overflow-x: hidden; }
+        h1, h2, h3 { font-family: 'Press Start 2P', cursive; text-shadow: 3px 3px 0px #000; text-align: center; }
+        h1 { font-size: 1.8rem; color: #ffeb3b; } h2 { font-size: 1.1rem; color: #00e5ff; } h3 { font-size: 1.2rem; }
+        .sea-stage { position: relative; width: 100%; height: 380px; background: linear-gradient(to bottom, #3b5998 0%, #4a90e2 40%, #1a365d 100%); border: 6px solid #000; box-shadow: 0 10px 0 #111; overflow: hidden; border-radius: 8px; }
+        .sun { position: absolute; top: 50px; left: 20%; width: 40px; height: 40px; background: #ff5722; box-shadow: 0px 0px 0px 4px #ff9800, 0px 0px 0px 8px #ffeb3b; }
+        .cloud-container { position: absolute; top: 30px; width: 100%; height: 100px; pointer-events: none; }
+        .cloud { position: absolute; background: #fff; box-shadow: 4px 0 0 0 #fff, -4px 0 0 0 #fff, 0 4px 0 0 #fff, 0 -4px 0 0 #fff, 8px 4px 0 0 #fff, -8px 4px 0 0 #fff, 12px 8px 0 0 #fff, -12px 8px 0 0 #fff, 0 -8px 0 0 #fff, 4px -8px 0 0 #fff, 8px -8px 0 0 #fff, -4px -8px 0 0 #fff, -8px -8px 0 0 #fff, 16px 0px 0 0 #fff, -16px 0px 0 0 #fff; height: 16px; width: 40px; opacity: 0.85; }
+        .cloud-1 { top: 20px; left: -100px; transform: scale(1.5); animation: drift 35s linear infinite; }
+        .cloud-2 { top: 60px; left: -150px; transform: scale(1); animation: drift 25s linear infinite; animation-delay: 10s; opacity: 0.7; }
+        .cloud-3 { top: 15px; left: -200px; transform: scale(2); animation: drift 45s linear infinite; animation-delay: 5s; opacity: 0.6; }
+        @keyframes drift { 0% { left: -150px; } 100% { left: 110%; } }
+        .birds-container { position: absolute; top: 60px; width: 100%; height: 120px; pointer-events: none; z-index: 2; }
+        .bird { position: absolute; width: 16px; height: 12px; background-size: contain; background-repeat: no-repeat; }
+        .bird-1 { top: 40px; left: 110%; animation: fly-across 18s linear infinite, flap 0.6s steps(2) infinite; }
+        .bird-2 { top: 15px; left: 115%; transform: scale(0.8); animation: fly-across 22s linear infinite, flap 0.5s steps(2) infinite; animation-delay: 3s; }
+        .bird-3 { top: 70px; left: 110%; transform: scale(1.1); animation: fly-across 15s linear infinite, flap 0.7s steps(2) infinite; animation-delay: 7s; }
+        @keyframes fly-across { 0% { left: 110%; } 100% { left: -50px; } }
+        @keyframes flap { 0% { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 16 12"><path d="M0,0 h2 v2 h-2 z M14,0 h2 v2 h-2 z M2,2 h2 v2 h-2 z M12,2 h2 v2 h-2 z M4,4 h2 v2 h-2 z M10,4 h2 v2 h-2 z M6,6 h4 v2 h-4 z" fill="black"/></svg>'); } 100% { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 16 12"><path d="M6,0 h4 v2 h-4 z M4,2 h2 v2 h-2 z M10,2 h2 v2 h-2 z M2,4 h2 v2 h-2 z M12,4 h2 v2 h-2 z M0,6 h2 v2 h-2 z M14,6 h2 v2 h-2 z" fill="black"/></svg>'); } }
+        .beach { position: absolute; bottom: 0; width: 100%; height: 70px; background-color: #f4d03f; border-top: 5px dashed #d4ac0d; z-index: 5; }
+        .waves { position: absolute; bottom: 55px; width: 200%; height: 40px; background: repeating-linear-gradient(90deg, #3498db, #3498db 40px, #2980b9 40px, #2980b9 80px); opacity: 0.8; z-index: 4; animation: wave-move 4s linear infinite; }
+        @keyframes wave-move { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .ship-container { position: absolute; bottom: 75px; left: 35%; z-index: 3; animation: float 4s ease-in-out infinite; text-align: center; }
+        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-12px) rotate(3deg); } }
+        .pixel-ship { width: 180px; height: 60px; background: #8e44ad; border: 4px solid #000; position: relative; clip-path: polygon(0% 0%, 100% 0%, 85% 100%, 15% 100%); }
+        .ship-sail { width: 110px; height: 110px; background: #ecf0f1; border: 4px solid #000; margin: 0 auto; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .ship-sail img { width: 100%; height: 100%; object-fit: cover; }
+        .sail-label { font-size: 11px; color: #000; font-family: 'Press Start 2P', cursive; position: absolute; text-align: center; line-height: 1.4; pointer-events: none; }
+        .upload-input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 20; }
+        .upload-input.disabled { pointer-events: none; display: none; }
+        .friends-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .friend-card { background: #222; border: 4px solid #fff; padding: 15px 10px; text-align: center; box-shadow: 5px 5px 0px #00e5ff; transition: transform 0.2s; position: relative; display: flex; flex-direction: column; justify-content: center; }
+        .friend-card:hover { transform: scale(1.02); border-color: #ffeb3b; }
+        .group-photo-card { box-shadow: 5px 5px 0px #ff007f; border-color: #ff007f; }
+        .friend-photo-slot { width: 100%; max-width: 180px; height: 140px; background: #333; margin: 0 auto 10px; border: 3px dashed #888; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+        .friend-photo-slot img { width: 100%; height: 100%; object-fit: cover; }
+        .friend-name { font-family: 'Press Start 2P', cursive; font-size: 12px; color: #fff; margin-top: 8px; }
+        .edit-badge { position: absolute; top: 5px; right: 5px; background: #ffeb3b; color: #000; font-family: 'Press Start 2P', cursive; font-size: 8px; padding: 2px 4px; border: 1px solid #000; z-index: 10; animation: pulse 1s infinite alternate; }
+        @keyframes pulse { 0% { opacity: 0.6; } 100% { opacity: 1; } }
+        .memorandum-section { background: #111; border: 6px double #ff007f; box-shadow: 0 0 15px #ff007f; }
+        .memo-form { background: #222; border: 3px solid #444; }
+        .memo-form input, .memo-form textarea { background: #000; border: 2px solid #ff007f; color: #fff; font-family: 'VT323', monospace; font-size: 22px; }
+        .memo-btn { background: #ff007f; color: #fff; font-family: 'Press Start 2P', cursive; font-size: 12px; box-shadow: 3px 3px 0 #5f0030; }
+        .memo-board { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+        .memo-card { background: #ffffcc; color: #000; border: 3px solid #000; box-shadow: 5px 5px 0px #888; transform: rotate(-1deg); }
+        .memo-media { width: 100%; max-height: 140px; object-fit: cover; border: 2px solid #000; }
+        .pixel-dialog-overlay { background: rgba(0,0,0,0.85); z-index: 100; }
+        .pixel-dialog { background: #222; border: 6px solid #fff; box-shadow: 8px 8px 0px #000; }
+    </style>
+</head>
+<body class="p-0 m-0">
+
+    <div id="passwordModal" class="pixel-dialog-overlay fixed inset-0 hidden flex items-center justify-center p-4">
+        <div class="pixel-dialog max-w-sm w-full p-6 text-center">
+            <h4 class="font-['Press_Start_2P'] text-xs text-yellow-400 mb-4">MASUKKAN PASSWORD ADMIN</h4>
+            <input type="password" id="adminPassInput" class="w-full text-center bg-black border-2 border-white p-2 text-white mb-4">
+            <button onclick="submitAdminPassword()" class="bg-green-600 text-white font-['Press_Start_2P'] px-3 py-2">MASUK</button>
+        </div>
+    </div>
+
+    <div id="customToast" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-black border-4 border-yellow-400 text-yellow-400 font-['Press_Start_2P'] text-[10px] px-4 py-3 z-50 hidden"></div>
+
+    <div class="container mx-auto px-4 max-w-[800px] py-6">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-xl">OUR PIXEL MEMORIES</h1>
+            <button id="adminToggleBtn" onclick="handleAdminToggle()" class="bg-red-600 p-2 text-white font-['Press_Start_2P'] text-[10px]">ADMIN: OFF</button>
+        </div>
+
+        <div class="sea-stage mb-8">
+            <div class="sun"></div>
+            <div class="cloud-container"><div class="cloud cloud-1"></div><div class="cloud cloud-2"></div><div class="cloud cloud-3"></div></div>
+            <div class="birds-container"><div class="bird bird-1"></div><div class="bird bird-2"></div><div class="bird bird-3"></div></div>
+            <div class="ship-container">
+                <div class="ship-sail">
+                    <span class="sail-label" id="sail-text">Klik & Ganti<br>Foto</span>
+                    <img id="main-ship-img" class="w-full h-full object-cover hidden" src="">
+                    <input type="file" id="input-ship" class="upload-input disabled" onchange="uploadAdminPhoto(this, 'shipPhoto', 'main-ship-img', 'sail-text')">
+                </div>
+                <div class="pixel-ship"></div>
+            </div>
+            <div class="waves"></div><div class="beach"></div>
+        </div>
+
+        <div id="memoBoard" class="memo-board"></div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Konfigurasi Firebase Resmi
         const firebaseConfig = {
             apiKey: "AIzaSyCfWZHdVuJ9926lioDa5kJygK8hsFVqAcg",
             authDomain: "pixelmemo-fc51b.firebaseapp.com",
@@ -17,175 +110,28 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const appId = 'pixel-memories-app';
 
-        let currentUser = null;
-        let isAdmin = false;
+        signInAnonymously(auth);
 
-        // Inisialisasi Auth
-        window.addEventListener('load', async () => {
-            try {
-                await signInAnonymously(auth);
-            } catch (err) {
-                console.error("Gagal inisialisasi autentikasi:", err);
-            }
-        });
-
-        onAuthStateChanged(auth, (user) => {
-            currentUser = user;
-            if (user) {
-                listenToAdminData();
-                listenToMemorandums();
-            }
-        });
-
-        // --- SISTEM TOAST / NOTIFIKASI ---
-        window.showToast = function(message) {
-            const toast = document.getElementById('customToast');
-            toast.innerText = message;
-            toast.classList.remove('hidden');
-            setTimeout(() => { toast.classList.add('hidden'); }, 4000);
-        };
-
-        // --- MANAJEMEN ADMIN MODE ---
-        window.handleAdminToggle = function() {
-            if (isAdmin) {
-                isAdmin = false;
-                updateAdminUI();
-            } else {
-                document.getElementById('passwordModal').classList.remove('hidden');
-            }
-        };
-
-        window.submitAdminPassword = function() {
-            const inputVal = document.getElementById('adminPassInput').value;
-            if (inputVal === 'teman123') {
-                isAdmin = true;
+        window.handleAdminToggle = () => document.getElementById('passwordModal').classList.remove('hidden');
+        window.submitAdminPassword = () => {
+            if(document.getElementById('adminPassInput').value === 'teman123') {
                 document.getElementById('passwordModal').classList.add('hidden');
-                updateAdminUI();
-                showToast("Berhasil masuk sebagai Admin!");
-            } else {
-                showToast("Password salah!");
-            }
+                document.querySelectorAll('.upload-input').forEach(el => el.classList.remove('disabled'));
+                alert("Admin Aktif!");
+            } else alert("Password salah!");
         };
 
-        function updateAdminUI() {
-            const toggleBtn = document.getElementById('adminToggleBtn');
-            const banner = document.getElementById('adminBanner');
-            const inputs = document.querySelectorAll('.upload-input');
-            const badges = document.querySelectorAll('.edit-badge');
-
-            if (isAdmin) {
-                toggleBtn.innerText = "🔑 ADMIN MODE: ON";
-                banner.classList.remove('hidden');
-                inputs.forEach(el => el.classList.remove('disabled'));
-                badges.forEach(el => el.classList.remove('hidden'));
-            } else {
-                toggleBtn.innerText = "🔑 ADMIN MODE: OFF";
-                banner.classList.add('hidden');
-                inputs.forEach(el => el.classList.add('disabled'));
-                badges.forEach(el => el.classList.add('hidden'));
-            }
-        }
-
-        // --- SISTEM FOTO ---
-        function compressAndConvertImage(file, maxWidth, callback) {
+        window.uploadAdminPhoto = (input, field, imgId) => {
+            const file = input.files[0];
             const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    let width = img.width;
-                    let height = img.height;
-                    if (width > maxWidth) {
-                        height = Math.round((height * maxWidth) / width);
-                        width = maxWidth;
-                    }
-                    canvas.width = width;
-                    canvas.height = height;
-                    canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-                    callback(canvas.toDataURL('image/jpeg', 0.7));
-                };
-                img.src = e.target.result;
+            reader.onload = async (e) => {
+                await setDoc(doc(db, 'config', 'data'), {[field]: e.target.result}, {merge: true});
+                document.getElementById(imgId).src = e.target.result;
+                document.getElementById(imgId).classList.remove('hidden');
             };
             reader.readAsDataURL(file);
-        }
-
-        window.uploadAdminPhoto = function(input, firestoreField, imgElementId, placeholderId) {
-            if (!isAdmin) return;
-            const file = input.files[0];
-            if (!file) return;
-
-            compressAndConvertImage(file, 400, async (base64Data) => {
-                try {
-                    await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'config'), 
-                    { [firestoreField]: base64Data }, { merge: true });
-                    showToast("Foto berhasil diperbarui!");
-                } catch (err) { showToast("Gagal menyimpan ke database."); }
-            });
         };
-
-        function listenToAdminData() {
-            onSnapshot(doc(db, 'artifacts', appId, 'public', 'data', 'config'), (docSnap) => {
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    syncPhotoSlot(data.shipPhoto, 'main-ship-img', 'sail-text');
-                    syncPhotoSlot(data.friend_is, 'img-is', 'text-is');
-                    syncPhotoSlot(data.friend_mbg, 'img-mbg', 'text-mbg');
-                    syncPhotoSlot(data.friend_vino, 'img-vino', 'text-vino');
-                    syncPhotoSlot(data.friend_angel, 'img-angel', 'text-angel');
-                    syncPhotoSlot(data.friend_ejajuk, 'img-ejajuk', 'text-ejajuk');
-                    syncPhotoSlot(data.friend_bareng, 'img-bareng', 'text-bareng');
-                }
-            });
-        }
-
-        function syncPhotoSlot(base64Data, imgId, placeholderId) {
-            const imgEl = document.getElementById(imgId);
-            const textEl = document.getElementById(placeholderId);
-            if (base64Data) {
-                imgEl.src = base64Data;
-                imgEl.classList.remove('hidden');
-                if (textEl) textEl.classList.add('hidden');
-            }
-        }
-
-        // --- SISTEM MEMORANDUM ---
-        document.getElementById('memoForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const textVal = document.getElementById('memoText').value.trim();
-            const mediaFile = document.getElementById('memoMedia').files[0];
-
-            const saveMemo = async (mediaBase64 = null, type = 'text') => {
-                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'memorandums'), {
-                    text: textVal, media: mediaBase64, mediaType: type, createdAt: Date.now()
-                });
-                document.getElementById('memoForm').reset();
-                showToast("Pesan berhasil ditempel!");
-            };
-
-            if (mediaFile && mediaFile.type.startsWith('image/')) {
-                compressAndConvertImage(mediaFile, 350, (base64) => saveMemo(base64, 'image'));
-            } else {
-                saveMemo();
-            }
-        });
-
-        function listenToMemorandums() {
-            onSnapshot(collection(db, 'artifacts', appId, 'public', 'data', 'memorandums'), (snapshot) => {
-                const board = document.getElementById('memoBoard');
-                board.innerHTML = '';
-                const items = [];
-                snapshot.forEach(doc => items.push({ id: doc.id, ...doc.data() }));
-                items.sort((a, b) => b.createdAt - a.createdAt);
-
-                items.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'memo-card p-4';
-                    if (item.media) card.innerHTML += `<img src="${item.media}" class="memo-media mb-3">`;
-                    card.innerHTML += `<div class="text-sm italic">"${item.text}"</div>`;
-                    board.appendChild(card);
-                });
-            });
-        }
-                                </script>
+    </script>
+</body>
+</html>
