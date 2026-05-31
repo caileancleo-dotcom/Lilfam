@@ -904,5 +904,105 @@
         };
         // ========================================================
     </script>
+    <!-- ======================================================== -->
+<!-- FITUR BARU: PIXEL JUKEBOX & MUSIC (INTERAKTIF)           -->
+<!-- ======================================================== -->
+<div class="bg-[#1a0c2e] border-4 border-cyan-400 p-5 rounded text-center my-10 max-w-[800px] mx-auto shadow-[6px_6px_0px_#000] text-white font-mono">
+    <h3 style="font-family: 'Press Start 2P', cursive; font-size: 12px;" class="text-cyan-400 mb-2">📻 PIXEL JUKEBOX & SOUNDS</h3>
+    <p style="font-family: 'VT323', monospace; font-size: 20px;" class="text-gray-400 mb-4">Putar lagu latar belakang atau klik tombol untuk membunyikan efek suara game!</p>
+    
+    <div class="flex justify-center gap-3 mb-4">
+        <button onclick="togglePixelMusic()" id="musicBtn" style="font-family: 'Press Start 2P', cursive; font-size: 9px;" class="bg-cyan-600 hover:bg-cyan-500 text-white px-3 py-2 border-2 border-black active:translate-y-1 shadow-[2px_2px_0px_#000]">
+            ▶️ PUTAR LAGU CHIPTUNE
+        </button>
+    </div>
+
+    <hr class="border-dashed border-gray-700 my-3">
+
+    <p style="font-family: 'Press Start 2P', cursive; font-size: 9px;" class="text-yellow-400 mb-2">🔊 SFX BOARD:</p>
+    <div class="flex flex-wrap justify-center gap-2">
+        <button onclick="playRetroSound('coin')" style="font-family: 'Press Start 2P', cursive; font-size: 9px;" class="bg-yellow-500 hover:bg-yellow-400 text-black px-3 py-1.5 border-2 border-black active:translate-y-1 shadow-[2px_2px_0px_#000]">
+            🪙 Dapat Koin
+        </button>
+        <button onclick="playRetroSound('jump')" style="font-family: 'Press Start 2P', cursive; font-size: 9px;" class="bg-green-600 hover:bg-green-500 text-white px-3 py-1.5 border-2 border-black active:translate-y-1 shadow-[2px_2px_0px_#000]">
+            🦘 Loncat
+        </button>
+        <button onclick="playRetroSound('fail')" style="font-family: 'Press Start 2P', cursive; font-size: 9px;" class="bg-red-600 hover:bg-red-500 text-white px-3 py-1.5 border-2 border-black active:translate-y-1 shadow-[2px_2px_0px_#000]">
+            💥 Game Over
+        </button>
+    </div>
+</div>
+
+<script>
+    let audioCtx = null;
+    let laguInterval = null;
+    let sedangMainLagu = false;
+
+    function initAudio() {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+    }
+
+    function buatNada(frekuensi, durasi, tipe = 'square', volume = 0.1) {
+        initAudio();
+        let osc = audioCtx.createOscillator();
+        let gainNode = audioCtx.createGain();
+        osc.type = tipe;
+        osc.frequency.setValueAtTime(frekuensi, audioCtx.currentTime);
+        gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + durasi);
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + durasi);
+    }
+
+    window.playRetroSound = function(tipe) {
+        if (tipe === 'coin') {
+            buatNada(987.77, 0.08, 'sine', 0.15);
+            setTimeout(() => buatNada(1318.51, 0.25, 'sine', 0.15), 80);
+        } else if (tipe === 'jump') {
+            initAudio();
+            let sekarang = audioCtx.currentTime;
+            let osc = audioCtx.createOscillator();
+            let gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(150, sekarang);
+            osc.frequency.exponentialRampToValueAtTime(600, sekarang + 0.15);
+            gain.gain.setValueAtTime(0.15, sekarang);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(sekarang + 0.15);
+        } else if (tipe === 'fail') {
+            buatNada(300, 0.15, 'sawtooth', 0.15);
+            setTimeout(() => buatNada(250, 0.15, 'sawtooth', 0.15), 150);
+            setTimeout(() => buatNada(180, 0.3, 'sawtooth', 0.15), 300);
+        }
+    };
+
+    const melodiLagu = [330, 330, 0, 330, 0, 261, 330, 0, 392, 0, 0, 0, 196];
+    let indeksNada = 0;
+
+    window.togglePixelMusic = function() {
+        initAudio();
+        const btn = document.getElementById('musicBtn');
+        if (sedangMainLagu) {
+            clearInterval(laguInterval);
+            sedangMainLagu = false;
+            btn.innerText = "▶️ PUTAR LAGU CHIPTUNE";
+        } else {
+            sedangMainLagu = true;
+            btn.innerText = "⏸️ STOP LAGU";
+            laguInterval = setInterval(() => {
+                let nadaSekarang = melodiLagu[indeksNada];
+                if (nadaSekarang > 0) {
+                    buatNada(nadaSekarang, 0.12, 'square', 0.03);
+                }
+                indeksNada = (indeksNada + 1) % melodiLagu.length;
+            }, 180);
+        }
+    };
+</script>
+<!-- ======================================================== -->
 </body>
 </html>
