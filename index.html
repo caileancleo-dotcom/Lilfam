@@ -822,14 +822,15 @@
         } 
     </script>
     <!-- ======================================================== -->
-<!-- ZONE LANGIT & BALON UDARA (GABUNGAN HTML + JS)           -->
+<!-- ZONE LANGIT & BALON UDARA VIBE KAPAL (POLAROID FRAME)    -->
 <!-- ======================================================== -->
-<div class="w-full bg-gradient-to-b from-[#090514] via-[#1e1b4b] to-[#0c4a6e] pt-12 pb-20 relative overflow-hidden text-white clear-both">
+<div class="w-full relative overflow-hidden text-white clear-both" style="background: linear-gradient(to bottom, #090514 0%, #13102b 35%, #0c4a6e 100%); padding-top: 4rem; padding-bottom: 5rem;">
     
-    <!-- Efek Awan-Awan Pixel -->
+    <!-- Efek Awan Melayang Halus -->
     <div class="absolute top-10 left-4 opacity-20 text-4xl select-none animate-pulse">☁️</div>
-    <div class="absolute top-32 right-10 opacity-30 text-5xl select-none animate-bounce">☁️</div>
+    <div class="absolute top-32 right-10 opacity-30 text-5xl select-none animate-bounce" style="animation-duration: 6s;">☁️</div>
 
+    <!-- Judul Zone -->
     <div class="text-center mb-16 relative z-10 px-4">
         <span class="text-xs bg-sky-500/30 text-sky-300 border border-sky-400 px-3 py-1 rounded-full font-mono uppercase tracking-widest">Level 2: The Sky Archive</span>
         <h2 style="font-family: 'Press Start 2P', cursive; font-size: 14px;" class="text-cyan-300 mt-3">🎈 TERBANG BERSAMA BALON UDARA</h2>
@@ -837,59 +838,87 @@
     </div>
 
     <!-- Wadah Balon Udara -->
-    <div class="relative w-full max-w-xs mx-auto flex flex-col items-center justify-center min-h-[350px]">
+    <div class="relative w-full max-w-xs mx-auto flex flex-col items-center justify-center min-h-[420px]">
         <div id="hotAirBalloon" class="relative flex flex-col items-center cursor-pointer select-none" onclick="gantiFotoLangitLokal()">
             
-            <!-- Kubah Balon + Frame Foto -->
-            <div class="w-56 h-56 bg-gradient-to-tr from-pink-500 via-purple-600 to-cyan-500 rounded-full p-3 border-4 border-black shadow-[0_10px_20px_rgba(0,0,0,0.5)] flex items-center justify-center relative">
-                <div class="w-full h-full bg-slate-900 rounded-full overflow-hidden border-4 border-yellow-400 flex items-center justify-center relative">
-                    <!-- 💡 GANTI LINK DI BAWAH INI DENGAN FOTO KALIAN -->
-                    <img id="fotoDiBalonLokal" src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=400" class="w-full h-full object-cover transition-opacity duration-300" alt="Foto Geng">
-                    <div class="absolute bottom-0 inset-x-0 bg-black/70 py-1 text-center">
-                        <span id="captionFotoLangitLokal" style="font-family: 'VT323', monospace; font-size: 14px;" class="text-yellow-300">"Petualangan Dimulai! 🚀"</span>
+            <!-- 1. KUBAH BALON UDARA BESAR -->
+            <div class="w-48 h-48 bg-gradient-to-tr from-pink-500 via-purple-600 to-cyan-500 rounded-full border-4 border-black shadow-[0_8px_15px_rgba(0,0,0,0.4)] relative flex items-center justify-center">
+                <!-- Efek Kilau Balon -->
+                <div class="absolute top-3 left-5 w-6 h-3 bg-white/30 rounded-full transform -rotate-12"></div>
+                
+                <!-- 2. FRAME FOTO POLAROID (KAYAK DI KAPAL) -->
+                <!-- Dibikin agak miring biar dapet kesan tertiup angin langit -->
+                <div class="absolute top-12 w-40 bg-white p-2 pb-5 border-4 border-black shadow-[5px_5px_0px_#000] transform rotate-3 transition-all duration-300 hover:rotate-0">
+                    
+                    <!-- Selotip Atas Polaroid (Biar makin mirip tema kapal) -->
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-4 bg-yellow-200/60 border border-dashed border-yellow-400 transform -rotate-2"></div>
+                    
+                    <!-- Kotak Foto Dalam -->
+                    <div class="w-full aspect-square bg-slate-800 border-2 border-black overflow-hidden relative">
+                        <img id="fotoDiBalonLokal" src="https://via.placeholder.com/400x400/1e293b/ffffff?text=MEMO+1" class="w-full h-full object-cover" style="transition: opacity 0.4s ease-in-out; opacity: 1;" alt="Foto Geng">
+                    </div>
+                    
+                    <!-- Tulisan Caption Polaroid Mini -->
+                    <div class="mt-2 text-center text-black">
+                        <p id="captionFotoLangitLokal" style="font-family: 'VT323', monospace; font-size: 15px;" class="font-bold tracking-wide">"Petualangan Dimulai! 🚀"</p>
                     </div>
                 </div>
             </div>
 
             <!-- Tali Balon -->
-            <div class="flex justify-between w-24 h-8 px-4"><div class="w-1 h-full bg-yellow-600/80"></div><div class="w-1 h-full bg-yellow-600/80"></div></div>
+            <div class="flex justify-between w-20 h-10 px-4 relative -mt-1"><div class="w-0.5 h-full bg-yellow-700/80"></div><div class="w-0.5 h-full bg-yellow-700/80"></div></div>
 
-            <!-- Keranjang -->
-            <div class="w-20 h-14 bg-amber-800 border-4 border-black rounded shadow-[4px_4px_0px_#000] flex flex-col items-center justify-center">
-                <span style="font-family: 'Press Start 2P', cursive; font-size: 8px;" class="text-white font-bold">BERLIMA</span>
+            <!-- Keranjang Geng -->
+            <div class="w-16 h-12 bg-amber-800 border-4 border-black rounded shadow-[4px_4px_0px_#000] flex flex-col items-center justify-center relative z-10">
+                <span style="font-family: 'Press Start 2P', cursive; font-size: 7px;" class="text-white font-bold">BERLIMA</span>
             </div>
         </div>
     </div>
 </div>
 
 <style>
-    #hotAirBalloon { animation: floatAnimation 4s ease-in-out infinite; }
+    /* Gerakan melayang lambat biar polaroidnya kerasa tertiup angin lembut */
+    #hotAirBalloon { 
+        animation: floatAnimation 5.5s ease-in-out infinite; 
+    }
     @keyframes floatAnimation {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-20px); }
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-22px) rotate(1.5deg); }
     }
 </style>
 
 <script>
     let idxLangit = 0;
-    // 💡 GANTI URL & CAPTION DI BAWAH INI SESUAI FOTO GENG KALIAN
+
+    // List penampung foto (Nanti tinggal kamu masukin file foto kamu di sini)
     const listLangit = [
-        { url: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=400", cap: "Mencapai langit bareng Is, Mbg, Vino, Angel, Ejajuk! ✨" },
-        { url: "https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=400", cap: "Foto absurd pas lagi kumpul bareng 🎈" },
-        { url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400", cap: "Menolak normal, yang penting seru! 🤪" }
+        { 
+            url: "https://via.placeholder.com/400x400/1e293b/ffffff?text=MEMO+1", 
+            cap: "Terbang bareng berlima! ✨" 
+        },
+        { 
+            url: "https://via.placeholder.com/400x400/334155/ffffff?text=MEMO+2", 
+            cap: "Kumpul terus jangan wacana 🎈" 
+        },
+        { 
+            url: "https://via.placeholder.com/400x400/475569/ffffff?text=MEMO+3", 
+            cap: "Menolak normal, seru terus! 🤪" 
+        }
     ];
 
     function gantiFotoLangitLokal() {
         idxLangit = (idxLangit + 1) % listLangit.length;
         const img = document.getElementById('fotoDiBalonLokal');
         const cap = document.getElementById('captionFotoLangitLokal');
+        
         if (img && cap) {
-            img.style.opacity = '0.3';
+            img.style.opacity = '0';
+            
             setTimeout(() => {
                 img.src = listLangit[idxLangit].url;
                 cap.innerText = listLangit[idxLangit].cap;
                 img.style.opacity = '1';
-            }, 150);
+            }, 400); 
         }
     }
 </script>
