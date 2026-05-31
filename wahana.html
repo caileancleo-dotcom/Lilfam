@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geng Playground 👾</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #090514;
+            background-image: radial-gradient(rgba(139, 92, 246, 0.15) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+        .pixel-btn {
+            border: 4px solid black;
+            box-shadow: 4px 4px 0px #000;
+            transition: all 0.1s ease;
+        }
+        .pixel-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #000;
+        }
+        #botolSpin {
+            transition: transform 3s cubic-bezier(0.1, 0.8, 0.1, 1);
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen p-4 flex flex-col items-center justify-start pb-24">
+
+    <div class="w-full max-w-[800px] mb-6">
+        <a href="index.html" style="font-family: 'VT323', monospace; font-size: 22px;" class="text-purple-400 hover:text-purple-300 underline flex items-center gap-1">
+            ⬅️ Kembali ke Galeri & Balon Udara
+        </a>
+    </div>
+
+    <div class="text-center mb-10">
+        <h1 style="font-family: 'Press Start 2P', cursive; font-size: 16px;" class="text-yellow-400 drop-shadow-[0_4px_0px_#000]">👾 POJOK SERU GENG BERLIMA 👾</h1>
+        <p style="font-family: 'VT323', monospace; font-size: 22px;" class="text-gray-400 mt-2">Dilarang baper, khusus buat seru-seruan bareng!</p>
+    </div>
+
+    <div class="w-full max-w-[800px] flex flex-col gap-8">
+
+        <div class="bg-slate-950 border-4 border-purple-500 p-5 rounded-lg shadow-[6px_6px_0px_#000] text-center">
+            <h3 style="font-family: 'Press Start 2P', cursive; font-size: 11px;" class="text-purple-400 mb-6">🔥 WAHANA 1: TRUTH OR DARE GENG</h3>
+            
+            <div class="relative w-64 h-64 mx-auto flex items-center justify-center bg-black/40 border-4 border-dashed border-purple-900 rounded-full mb-6">
+                <div id="botolSpin" class="text-5xl select-none z-10 absolute pointer-events-none">🍾</div>
+                
+                <div style="font-family: 'VT323', monospace; font-size: 20px;" class="absolute top-2 font-bold text-pink-400">Is 🙋‍♂️</div>
+                <div style="font-family: 'VT323', monospace; font-size: 20px;" class="absolute right-3 font-bold text-cyan-400">Mbg 🙋‍♀️</div>
+                <div style="font-family: 'VT323', monospace; font-size: 20px;" class="absolute bottom-2 right-12 font-bold text-emerald-400">Vino 🙋‍♂️</div>
+                <div style="font-family: 'VT323', monospace; font-size: 20px;" class="absolute bottom-2 left-12 font-bold text-yellow-400">Angel 🙋‍♀️</div>
+                <div style="font-family: 'VT323', monospace; font-size: 20px;" class="absolute left-2 font-bold text-orange-400">Ejajuk 🙋‍♂️</div>
+            </div>
+
+            <button onclick="putarBotol()" style="font-family: 'Press Start 2P', cursive; font-size: 10px;" class="pixel-btn bg-purple-700 hover:bg-purple-600 text-white px-6 py-3 rounded mb-4">
+                🍾 PUTAR BOTOLNYA!
+            </button>
+
+            <div id="boxTantangan" class="hidden mt-2 p-4 bg-black border-2 border-dashed border-purple-500 rounded max-w-sm mx-auto animate-pulse">
+                <p id="targetNama" style="font-family: 'Press Start 2P', cursive; font-size: 11px;" class="text-yellow-400 mb-2"></p>
+                <p id="teksTantangan" style="font-family: 'VT323', monospace; font-size: 20px;" class="text-gray-200 italic"></p>
+            </div>
+        </div>
+
+
+        <div class="bg-slate-950 border-4 border-pink-500 p-5 rounded-lg shadow-[6px_6px_0px_#000]">
+            <h3 style="font-family: 'Press Start 2P', cursive; font-size: 11px;" class="text-pink-400 text-center mb-2">🤫 WAHANA 2: KOTAK RAHASIA GENG</h3>
+            <p style="font-family: 'VT323', monospace; font-size: 18px;" class="text-gray-400 text-center mb-4">Kirim spill, unek-unek, atau ceng-cengan tanpa ketahuan siapa pengirimnya!</p>
+            
+            <div class="flex flex-col sm:flex-row gap-2 max-w-md mx-auto mb-6">
+                <input type="text" id="inputRahasia" style="font-family: 'VT323', monospace; font-size: 18px;" class="w-full p-2.5 bg-black border-2 border-pink-500 text-white rounded outline-none" placeholder="Tulis rahasia/spill di sini..." maxlength="100">
+                <button onclick="kirimPesanRahasia()" style="font-family: 'Press Start 2P', cursive; font-size: 9px;" class="pixel-btn bg-pink-600 hover:bg-pink-500 text-white px-4 py-2 font-bold whitespace-nowrap">SPILL! 📣</button>
+            </div>
+
+            <div class="max-w-md mx-auto">
+                <h4 style="font-family: 'Press Start 2P', cursive; font-size: 8px;" class="text-yellow-500 mb-3 uppercase tracking-wider">💬 Papan Rahasia Berjalan:</h4>
+                <div id="papanRahasia" style="font-family: 'VT323', monospace; font-size: 19px;" class="bg-black/60 border-2 border-slate-800 rounded p-3 h-48 overflow-y-auto flex flex-col gap-2">
+                    <div class="p-2 bg-slate-900 border-l-4 border-pink-500 rounded text-gray-300">"Ada yang diem-diem sering ngesnooze grup chat nih wkwk" <span class="text-xs text-gray-600 block mt-0.5">⏱️ Anonymous</span></div>
+                    <div class="p-2 bg-slate-900 border-l-4 border-pink-500 rounded text-gray-300">"Wacana mulu kumpulnya, kapan jadi?!" <span class="text-xs text-gray-600 block mt-0.5">⏱️ Anonymous</span></div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="bg-slate-950 border-4 border-cyan-500 p-5 rounded-lg shadow-[6px_6px_0px_#000] text-center">
+            <h3 style="font-family: 'Press Start 2P', cursive; font-size: 11px;" class="text-cyan-400 mb-2">🎯 WAHANA 3: TES KEKOMPAKAN GENG</h3>
+            <p style="font-family: 'VT323', monospace; font-size: 18px;" class="text-gray-400 mb-4">Satu orang baca pertanyaan, sisanya jawab barengan di dunia nyata. Kompak gak?</p>
+            
+            <div class="bg-black/50 p-4 border-2 border-dashed border-cyan-900 rounded max-w-md mx-auto mb-4 min-h-[80px] flex items-center justify-center">
+                <p id="teksKuis" style="font-family: 'VT323', monospace; font-size: 22px;" class="text-cyan-300 font-bold">"Klik tombol di bawah untuk acak kuis!"</p>
+            </div>
+
+            <button onclick="acakKuisKekompakan()" style="font-family: 'Press Start 2P', cursive; font-size: 9px;" class="pixel-btn bg-cyan-700 hover:bg-cyan-600 text-white px-4 py-2.5 rounded">
+                🎲 ACAK PERTANYAAN
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // 1. CODE GAME 1: PUTAR BOTOL TRUTH OR DARE
+        const listNama = ["Is 🙋‍♂️", "Mbg 🙋‍♀️", "Vino 🙋‍♂️", "Angel 🙋‍♀️", "Ejajuk 🙋‍♂️"];
+        const listTod = [
+            "TRUTH: Siapa orang di geng ini yang paling jaim kalau ada gebetannya?",
+            "DARE: Telpon nomor acak di kontak hp kamu, pas diangkat langsung nyanyi lagu balonku!",
+            "TRUTH: Jujur, siapa di antara kalian berlima yang paling lemot kalau diajak ngegosip?",
+            "DARE: Perlihatkan isi galeri foto paling terakhir atau paling absurd di hp kamu sekarang!",
+            "TRUTH: Apa kebiasaan paling aneh dari salah satu temen di sini yang paling bikin kamu geleng-geleng?",
+            "DARE: Lakukan gaya model/catwalk keliling ruangan tempat kalian kumpul sekarang juga!"
+        ];
+        
+        let rotasiSekarang = 0;
+        function putarBotol() {
+            document.getElementById('boxTantangan').classList.add('hidden');
+            // Putar acak minimal 3 putaran (1080 deg) ditambah sudut acak
+            let putaranTambahan = Math.floor(Math.random() * 360) + 1080;
+            rotasiSekarang += putaranTambahan;
+            
+            const botol = document.getElementById('botolSpin');
+            botol.style.transform = `rotate(${rotasiSekarang}deg)`;
+            
+            // Tunggu animasi putar botol selesai (3 detik)
+            setTimeout(() => {
+                let indeksNama = Math.floor(Math.random() * listNama.length);
+                let indeksTod = Math.floor(Math.random() * listTod.length);
+                
+                document.getElementById('targetNama').innerText = `🎯 KENA LU: ${listNama[indeksNama]}`;
+                document.getElementById('teksTantangan').innerText = `"${listTod[indeksTod]}"`;
+                document.getElementById('boxTantangan').classList.remove('hidden');
+            }, 3000);
+        }
+
+        // 2. CODE GAME 2: KOTAK RAHASIA REAL-TIME
+        function kirimPesanRahasia() {
+            const inp = document.getElementById('inputRahasia');
+            const teks = inp.value.trim();
+            if(!teks) return;
+
+            if (typeof database !== 'undefined') {
+                // Jalur Firebase (Real-time antar HP teman)
+                database.ref('kotakRahasia').push({
+                    pesan: teks,
+                    waktu: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+                });
+            } else {
+                // Jalur simulasi lokal
+                const papan = document.getElementById('papanRahasia');
+                papan.innerHTML = `<div class="p-2 bg-slate-900 border-l-4 border-pink-500 rounded text-gray-300">"${teks}" <span class="text-xs text-pink-400 block mt-0.5">⏱️ Baru Saja (Lokal)</span></div>` + papan.innerHTML;
+            }
+            inp.value = "";
+        }
+
+        // Ambil data rahasia otomatis dari Firebase jika terhubung
+        if (typeof database !== 'undefined') {
+            database.ref('kotakRahasia').limitToLast(15).on('value', (snap) => {
+                const papan = document.getElementById('papanRahasia');
+                papan.innerHTML = "";
+                let data = [];
+                snap.forEach(child => { data.push(child.val()); });
+                data.reverse().forEach(p => {
+                    papan.innerHTML += `<div class="p-2 bg-slate-900 border-l-4 border-pink-500 rounded text-gray-300">"${p.pesan}" <span class="text-xs text-gray-600 block mt-0.5">⏱️ ${p.waktu} via Anonymous</span></div>`;
+                });
+            });
+        }
+
+        // 3. CODE GAME 3: KUIS KEKOMPAKAN
+        const listKuis = [
+            "Sebutkan 1, 2, 3... Makanan favorit Is apa?!",
+            "Dalam hitungan ketiga, siapa yang paling boros di geng ini?!",
+            "1, 2, 3... Apa film atau tontonan kesukaan Mbg?!",
+            "Sebut barengan: Siapa di antara kalian yang tidurnya paling ngebo?!",
+            "1, 2, 3... Apa tempat impian yang pengen kalian datengin berlima?!"
+        ];
+        function acakKuisKekompakan() {
+            let idx = Math.floor(Math.random() * listKuis.length);
+            document.getElementById('teksKuis').innerText = `"${listKuis[idx]}"`;
+        }
+    </script>
+</body>
+  </html>
