@@ -528,6 +528,26 @@
         </div>
 
         <!-- 3. MEMORANDUM SECTION -->
+        <!-- ======================================================== -->
+        <!-- FITUR BARU: PIXEL FORTUNE COOKIE (KOCAK & INTERAKTIF)    -->
+        <!-- ======================================================== -->
+        <div class="bg-gradient-to-r from-purple-900 to-indigo-900 border-4 border-yellow-400 p-6 rounded text-center mb-10 shadow-[6px_6px_0px_#000] relative overflow-hidden">
+            <h3 class="text-yellow-300 mb-2 font-['Press_Start_2P'] text-[13px]">🥠 PIXEL FORTUNE COOKIE</h3>
+            <p class="text-xs text-gray-300 mb-4 leading-tight">Klik biskuit mistis ini untuk melihat ramalan nasib pixelmu hari ini!</p>
+            
+            <!-- Area Biskuit Interaktif -->
+            <div id="cookieArea" class="cursor-pointer inline-block my-4 transition-transform active:scale-95" onclick="crackCookie()">
+                <div id="cookieGraphic" class="text-5xl filter drop-shadow-[3px_3px_0px_rgba(0,0,0,1)] animate-bounce">🥠</div>
+            </div>
+
+            <!-- Tempat Teks Ramalan Muncul -->
+            <div id="fortuneTextSlot" class="min-h-[40px] flex items-center justify-center px-4">
+                <p id="fortuneText" class="text-emerald-400 text-xl font-bold italic leading-tight tracking-wide animate-pulse">
+                    "Sentuh aku jika berani..."
+                </p>
+            </div>
+        </div>
+        <!-- ======================================================== -->
         <div class="memorandum-section p-6 border-double rounded mb-12">
             <h3 class="mb-2">📝 MEMORANDUM</h3>
             <p class="text-center text-sm md:text-base text-pink-400 mb-6 leading-tight">Siapa saja bisa melampirkan pesan atau foto kenangan di sini!</p>
@@ -820,6 +840,69 @@
             };
             reader.readAsDataURL(file);
         }
+        // ========================================================
+        // LOGIKA KOCAK PIXEL FORTUNE COOKIE
+        // ========================================================
+        const daftarRamalan = [
+            "Ramalan hari ini: Dompetmu seperti pixel transparan, gak kelihatan isinya.",
+            "Waduh! Masa depanmu secerah lampu RGB di casing PC berspesifikasi dewa.",
+            "Jangan menyerah, kodinganmu emang error, tapi pesonamu kan nggak. (Canda error).",
+            "Hari ini kamu akan mendapatkan rezeki nomplok berupa... notifikasi grup WA yang di-mute.",
+            "Kisah cintamu diprediksi mirip sinyal Edge di pelosok: Kadang ada, seringnya ilang.",
+            "Keberuntunganmu 99%, sisanya ketutup gara-gara belum mandi.",
+            "Hati-hati, hari ini ada seseorang yang kangen kamu tapi gengsinya sebesar ukuran file GTA V.",
+            "Saran hari ini: Kurangi mikirin masa lalu, banyakin mikirin kuota internet.",
+            "Kamu akan segera menemukan barang hilang yang dicari-cari... pas kamu udah beli yang baru.",
+            "Maju terus! Ingat, secapek-capeknya kamu, masih capek-an server Firebase nampung foto-fotomu."
+        ];
+
+        let sedangAnimasiCookie = false;
+
+        window.crackCookie = function() {
+            if (sedangAnimasiCookie) return;
+            sedangAnimasiCookie = true;
+
+            const cookieGraphic = document.getElementById('cookieGraphic');
+            const fortuneText = document.getElementById('fortuneText');
+
+            // Efek Suara/Visual Getar (Shake Effect via inline styles)
+            cookieGraphic.style.animation = 'none';
+            cookieGraphic.innerText = "💥"; 
+            fortuneText.innerText = "Sedang meramal...";
+            fortuneText.style.color = "#ffeb3b";
+
+            setTimeout(() => {
+                // Berubah jadi biskuit pecah
+                cookieGraphic.innerText = "🥠✨";
+                
+                // Ambil ramalan acak
+                const acak = Math.floor(Math.random() * daftarRamalan.length);
+                fortuneText.innerText = `"${daftarRamalan[acak]}"`;
+                
+                // Kembalikan warna text jadi hijau cerah
+                fortuneText.style.color = "#34d399";
+                
+                // Mainkan sound effect bawaan browser (Beep tipis retro)
+                if (window.AudioContext || window.webkitAudioContext) {
+                    let ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    let osc = ctx.createOscillator();
+                    osc.type = 'square'; // Suara kotak khas game nintendo 8-bit
+                    osc.frequency.setValueAtTime(440, ctx.currentTime);
+                    osc.connect(ctx.destination);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.1);
+                }
+
+                // Beri jeda agar user bisa klik lagi setelah 2 detik
+                setTimeout(() => {
+                    cookieGraphic.innerText = "🥠";
+                    cookieGraphic.className = "text-5xl filter drop-shadow-[3px_3px_0px_rgba(0,0,0,1)] animate-bounce";
+                    sedangAnimasiCookie = false;
+                }, 2000);
+
+            }, 600);
+        };
+        // ========================================================
     </script>
 </body>
 </html>
