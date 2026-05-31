@@ -3,53 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Memory Garden 🌸</title>
+    <title>The Interactive Zen Garden 🌿</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body { background: #0c120c; font-family: 'Georgia', serif; }
-        .tree-container { position: relative; width: 300px; height: 350px; margin: auto; }
-        .fruit-photo { 
-            position: absolute; width: 60px; height: 60px; border-radius: 50%; 
-            border: 3px solid #f0fdf4; cursor: pointer; transition: transform 0.3s;
-            background-size: cover; background-position: center;
+        body { 
+            background: linear-gradient(to bottom, #09100d, #030504); 
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow: hidden;
         }
-        .fruit-photo:hover { transform: scale(1.2) rotate(5deg); z-index: 10; }
-        .flower-bed { transition: opacity 0.3s; }
-        .flower-bed:hover { opacity: 0.7; cursor: help; }
+        /* Animasi Bunga Tumbuh Mekar */
+        .flower-spawn {
+            animation: growBloom 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            transform-origin: bottom center;
+        }
+        @keyframes growBloom {
+            0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+            60% { transform: scale(1.2) rotate(5deg); }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        /* Animasi Kelopak Gugur */
+        .petal {
+            position: absolute;
+            pointer-events: none;
+            animation: fall 4s linear forwards;
+        }
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(150px) rotate(360deg); opacity: 0; }
+        }
     </style>
 </head>
-<body class="text-green-100 min-h-screen p-8">
+<body class="text-emerald-100 min-h-screen relative select-none">
 
-    <div class="max-w-3xl mx-auto text-center">
-        <h1 class="text-4xl italic text-green-300 mb-2">The Garden of Memories</h1>
-        <p class="text-green-600 mb-12">Tempat di mana momen berlima kita tumbuh abadi.</p>
-
-        <!-- POHON MEMORI -->
-        <div class="tree-container mb-20">
-            <!-- Batang Pohon (Visual) -->
-            <div class="absolute bottom-0 left-1/2 -ml-4 w-8 h-64 bg-amber-900 rounded-t-lg"></div>
-            <div class="absolute bottom-60 left-1/2 -ml-20 w-40 h-40 bg-green-800 rounded-full"></div>
-            
-            <!-- BUAH FOTO (Admin bisa ganti URL fotonya di bawah) -->
-            <div class="fruit-photo" style="top: 20px; left: 40px; background-image: url('https://via.placeholder.com/150');" title="Momen Is"></div>
-            <div class="fruit-photo" style="top: 10px; right: 40px; background-image: url('https://via.placeholder.com/150');" title="Momen Mbg"></div>
-            <div class="fruit-photo" style="top: 80px; left: 10px; background-image: url('https://via.placeholder.com/150');" title="Momen Vino"></div>
-            <div class="fruit-photo" style="top: 80px; right: 10px; background-image: url('https://via.placeholder.com/150');" title="Momen Angel"></div>
-            <div class="fruit-photo" style="top: 140px; left: 120px; background-image: url('https://via.placeholder.com/150');" title="Momen Ejajuk"></div>
-        </div>
-
-        <!-- PETAK BUNGA -->
-        <div class="grid grid-cols-5 gap-4">
-            <div class="flower-bed" title="Is: Selalu tenang kayak bunga matahari">🌻 <p class="text-xs">Is</p></div>
-            <div class="flower-bed" title="Mbg: Anggun tapi berduri">🌹 <p class="text-xs">Mbg</p></div>
-            <div class="flower-bed" title="Vino: Tumbuh di mana saja">🍀 <p class="text-xs">Vino</p></div>
-            <div class="flower-bed" title="Angel: Lembut dan menenangkan">🌸 <p class="text-xs">Angel</p></div>
-            <div class="flower-bed" title="Ejajuk: Unik dan beda sendiri">✨ <p class="text-xs">Ejajuk</p></div>
-        </div>
-
-        <div class="mt-16 text-xs text-green-800">
-            *Admin: Ganti link 'https://via.placeholder.com/150' di kode untuk update foto buah.*
-        </div>
+    <!-- Header & Petunjuk -->
+    <div class="absolute top-8 left-0 right-0 z-10 text-center pointer-events-none">
+        <h1 class="text-2xl font-light tracking-widest text-emerald-400/80 uppercase">The Shared Garden</h1>
+        <p class="text-xs text-emerald-700/60 mt-1">Ketuk atau klik di mana saja untuk menumbuhkan bunga</p>
     </div>
+
+    <!-- Kanvas Utama Tempat Menanam (Klik di Sini) -->
+    <div id="garden-canvas" class="w-full h-screen absolute inset-0 cursor-pointer"></div>
+
+    <!-- Watermark Geng di Bagian Bawah -->
+    <div class="absolute bottom-6 left-0 right-0 text-center pointer-events-none z-10">
+        <p class="text-[10px] tracking-widest text-emerald-900 uppercase font-semibold">
+            Is • Mbg • Vino • Angel • Ejajuk
+        </p>
+        <button onclick="bersihkanTaman(event)" class="pointer-events-auto mt-2 text-[10px] bg-emerald-950/40 hover:bg-emerald-900/40 border border-emerald-900/30 text-emerald-600 px-3 py-1 rounded-full transition-colors">
+            Bersihkan Taman
+        </button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('garden-canvas');
+        const jenisBunga = ['🌸', '🌷', '🌻', '🪻', '🌼', '🌹', '🌿', '🌱'];
+        const jenisKelopak = ['🌸', '✨', '🍃', '💮'];
+
+        // Efek interaktif saat layar diklik / disentuh
+        canvas.addEventListener('click', (e) => {
+            // Ambil posisi koordinat klik mouse
+            const x = e.clientX;
+            const y = e.clientY;
+
+            // 1. Munculkan Bunga Baru
+            const bungaAcak = jenisBunga[Math.floor(Math.random() * jenisBunga.length)];
+            const elemenBunga = document.createElement('div');
+            
+            elemenBunga.className = 'flower-spawn absolute text-4xl sm:text-5xl';
+            // Posisikan tepat di tengah ujung bawah emoji bunga
+            elemenBunga.style.left = `${x - 24}px`;
+            elemenBunga.style.top = `${y - 40}px`;
+            elemenBunga.innerText = bungaAcak;
+
+            canvas.appendChild(elemenBunga);
+
+            // 2. Munculkan Efek Kelopak Gugur di Sekitarnya
+            for (let i = 0; i < 3; i++) {
+                createPetal(x, y);
+            }
+        });
+
+        // Fungsi membuat kelopak bunga berguguran
+        function createPetal(startX, startY) {
+            const kelopakAcak = jenisKelopak[Math.floor(Math.random() * jenisKelopak.length)];
+            const elemenKelopak = document.createElement('div');
+            
+            elemenKelopak.className = 'petal text-sm opacity-0';
+            elemenKelopak.innerText = kelopakAcak;
+            
+            // Variasi posisi jatuh acak
+            const jangkauanX = (Math.random() - 0.5) * 60; 
+            elemenKelopak.style.left = `${startX + jangkauanX}px`;
+            elemenKelopak.style.top = `${startY - 10}px`;
+            
+            canvas.appendChild(elemenKelopak);
+
+            // Hapus elemen kelopak setelah animasinya selesai biar ga berat
+            setTimeout(() => {
+                elemenKelopak.remove();
+            }, 4000);
+        }
+
+        // Fungsi tombol reset untuk mengosongkan taman kembali
+        function bersihkanTaman(e) {
+            e.stopPropagation(); // Mencegah klik tombol malah memicu numbuhin bunga baru
+            canvas.innerHTML = '';
+        }
+    </script>
 </body>
 </html>
